@@ -1,3 +1,4 @@
 .git
 .idea
 cmd/cmd
+info.json
