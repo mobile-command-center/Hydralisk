@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 type User struct {
@@ -25,15 +26,31 @@ func (u *User) Login(login string) {
 
 func (u *User) Logout(logout string) {
 	req, _ := http.NewRequest("GET", logout, nil)
-	parsedUrl, _ := url.Parse(logout)
+
+	u.setCookie(logout, req)
+
+	resp, _ := u.Client.Get(logout)
+	if resp.StatusCode != http.StatusOK {
+		fmt.Println(resp.StatusCode)
+	}
+	defer resp.Body.Close()
+}
+
+func (u *User) setCookie(rawUrl string, req *http.Request) {
+	parsedUrl, _ := url.Parse(rawUrl)
 	for _, cookie := range u.Client.Jar.Cookies(parsedUrl) {
 		req.AddCookie(&http.Cookie{
 			Name:  cookie.Name,
 			Value: cookie.Value,
 		})
 	}
+}
 
-	resp, _ := u.Client.Get(logout)
+func (u *User) Register(register string, values url.Values) {
+	req, _ := http.NewRequest("POST", register, strings.NewReader(values.Encode()))
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	u.setCookie(register, req)
+	resp, _ := u.Client.Do(req)
 	if resp.StatusCode != http.StatusOK {
 		fmt.Println(resp.StatusCode)
 	}

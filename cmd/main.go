@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/schema"
 	"github.com/mobile-command-center/Hydralisk/goods"
 	"github.com/mobile-command-center/Hydralisk/user"
@@ -48,9 +47,7 @@ func main() {
 	encoder.SetAliasTag("form")
 	_ = encoder.Encode(&goods.Membership{}, formValue)
 
-	fmt.Println(formValue.Encode())
-
 	u.Login(c.LoginUrl)
-
-	u.Logout(c.LogoutUrl)
+	u.Register(c.RegisterUrl, formValue)
+	defer u.Logout(c.LogoutUrl)
 }
