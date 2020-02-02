@@ -1,5 +1,10 @@
 package goods
 
+type AdminInformation struct {
+	Jupsu string `form:"g_jupsu_m_id"`
+	Yuchi string `form:"g_yuchi_m_id"`
+}
+
 //CustomerInformation 구조체는 고객정보탭의 정보를 저장하는 구조체이다.
 type CustomerInformation struct {
 	Name                       string `form:"c_name"`            //고객명
@@ -155,6 +160,7 @@ type Attachments struct {
 
 //Membership 구조체는 가입신청 정보를 관리하는 구조체이다.
 type Membership struct {
+	AdminInformation    AdminInformation
 	CustomerInformation CustomerInformation
 	PaymentInformation  PaymentInformation
 	GiftAccount         GiftAccount

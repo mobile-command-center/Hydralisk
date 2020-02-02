@@ -1,7 +1,10 @@
 package user
 
 import (
+	"bytes"
 	"fmt"
+	"io"
+	"mime/multipart"
 	"net/http"
 	"net/url"
 	"strings"
@@ -46,9 +49,27 @@ func (u *User) setCookie(rawUrl string, req *http.Request) {
 	}
 }
 
-func (u *User) Register(register string, values url.Values) {
-	req, _ := http.NewRequest("POST", register, strings.NewReader(values.Encode()))
-	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+func makeMultiPart(v url.Values) (string, string) {
+	var b bytes.Buffer
+	w := multipart.NewWriter(&b)
+	w.SetBoundary("ajnetbot")
+
+	for key, r := range v {
+		var fw io.Writer
+		fw, _ = w.CreateFormField(key)
+		for _, value := range r {
+			_, _ = io.Copy(fw, strings.NewReader(value))
+		}
+	}
+	w.Close()
+
+	return b.String(), w.FormDataContentType()
+}
+
+func (u *User) Register(register string, v url.Values) {
+	b, c := makeMultiPart(v)
+	req, _ := http.NewRequest(http.MethodPost, register, strings.NewReader(b))
+	req.Header.Add("Content-Type", c)
 	u.setCookie(register, req)
 	resp, _ := u.Client.Do(req)
 	if resp.StatusCode != http.StatusOK {
