@@ -1,5 +1,5 @@
 .git
 .idea
-cmd/cmd
+standalone
 info.json
 sample.txt

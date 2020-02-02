@@ -1,8 +1,9 @@
 package goods
 
+//AdminInformation 구조체는 고객등록시 필요한 관리자 ID이다. Cookie로 받아올 수 있다.
 type AdminInformation struct {
-	Jupsu string `form:"g_jupsu_m_id"`
-	Yuchi string `form:"g_yuchi_m_id"`
+	Jupsu string `form:"g_jupsu_m_id"` //접수 ID
+	Yuchi string `form:"g_yuchi_m_id"` //유치 ID
 }
 
 //CustomerInformation 구조체는 고객정보탭의 정보를 저장하는 구조체이다.

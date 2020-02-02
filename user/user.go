@@ -1,21 +1,20 @@
 package user
 
 import (
-	"bytes"
 	"fmt"
-	"io"
-	"mime/multipart"
 	"net/http"
 	"net/url"
 	"strings"
 )
 
 type User struct {
-	Id       string
-	Password string
-	Client   *http.Client
+	Id       string       //관리자 ID
+	Password string       //관리자 Password
+	Client   *http.Client //ERP 통신 클라이언트
 }
 
+//Login 함수는 관리자 로그인 함수이다.
+//로그인 성공시 세션정보를 획득한다.
 func (u *User) Login(login string) {
 	resp, _ := u.Client.PostForm(login, url.Values{
 		"m_id":     {u.Id},
@@ -27,6 +26,7 @@ func (u *User) Login(login string) {
 	defer resp.Body.Close()
 }
 
+//Logout 함수는 관리자 로그아웃 함수이다.
 func (u *User) Logout(logout string) {
 	req, _ := http.NewRequest("GET", logout, nil)
 
@@ -39,6 +39,7 @@ func (u *User) Logout(logout string) {
 	defer resp.Body.Close()
 }
 
+//setCookie 함수는 고객 등록시 필요한 쿠키정보를 설정하는 함수이다.
 func (u *User) setCookie(rawUrl string, req *http.Request) {
 	parsedUrl, _ := url.Parse(rawUrl)
 	for _, cookie := range u.Client.Jar.Cookies(parsedUrl) {
@@ -49,23 +50,8 @@ func (u *User) setCookie(rawUrl string, req *http.Request) {
 	}
 }
 
-func makeMultiPart(v url.Values) (string, string) {
-	var b bytes.Buffer
-	w := multipart.NewWriter(&b)
-	w.SetBoundary("ajnetbot")
-
-	for key, r := range v {
-		var fw io.Writer
-		fw, _ = w.CreateFormField(key)
-		for _, value := range r {
-			_, _ = io.Copy(fw, strings.NewReader(value))
-		}
-	}
-	w.Close()
-
-	return b.String(), w.FormDataContentType()
-}
-
+//Register 함수는 고객정보를 등록하는 함수이다.
+//ERP시스템에서는 multipart 타입으로 POST 요청해야 한다.
 func (u *User) Register(register string, v url.Values) {
 	b, c := makeMultiPart(v)
 	req, _ := http.NewRequest(http.MethodPost, register, strings.NewReader(b))

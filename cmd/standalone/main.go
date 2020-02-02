@@ -1,26 +1,24 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"github.com/gorilla/schema"
 	"github.com/mobile-command-center/Hydralisk/goods"
 	"github.com/mobile-command-center/Hydralisk/user"
-	"golang.org/x/text/encoding/korean"
-	"golang.org/x/text/transform"
 	"io/ioutil"
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
 )
 
+//Config 함수는 ERP 서버 정보를 갖는 구조체이다.
 type Config struct {
-	Endpoint    string `json:"endpoint"`
-	LoginUrl    string `json:"login"`
-	LogoutUrl   string `json:"logout"`
-	RegisterUrl string `json:"register"`
-	Id          string `json:"id"`
-	Password    string `json:"password"`
+	Endpoint    string `json:"endpoint"` //ERP URL endpoint
+	LoginUrl    string `json:"login"`    //Login URL
+	LogoutUrl   string `json:"logout"`   //Logout URL
+	RegisterUrl string `json:"register"` //Register URL
+	Id          string `json:"id"`       //Admin id
+	Password    string `json:"password"` //Admin password
 }
 
 func main() {
@@ -54,13 +52,7 @@ func main() {
 			Yuchi: c.Id,
 		},
 		CustomerInformation: goods.CustomerInformation{
-			Name: func() string {
-				var buff bytes.Buffer
-				wr := transform.NewWriter(&buff, korean.EUCKR.NewEncoder())
-				_, _ = wr.Write([]byte("테스트1"))
-				_ = wr.Close()
-				return buff.String()
-			}(),
+			Name:               goods.EncodeKorean([]byte("테스트1")),
 			Phone:              "010-000-0000",
 			CustomerType:       "C",
 			RegistrationCourse: "0",
