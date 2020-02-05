@@ -32,9 +32,9 @@ func registrationHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-
 	decoder := json.NewDecoder(bytes.NewBuffer(reqBody))
 	membership := &goods.Membership{}
+
 	if err := decoder.Decode(membership); err != nil {
 		fmt.Fprintln(w, http.StatusBadRequest)
 	} else {
@@ -44,6 +44,10 @@ func registrationHandler(w http.ResponseWriter, r *http.Request) {
 
 		encoder := schema.NewEncoder()
 		encoder.SetAliasTag("form")
+
+		if err := goods.Validate(membership); err != nil {
+			log.Println(err)
+		}
 
 		_ = encoder.Encode(membership, formValue)
 

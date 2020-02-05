@@ -24,6 +24,10 @@ type CustomerInformation struct {
 	RegistrationCourse         string `form:"g_code_course_idx" json:"g_code_course_idx,omitempty"` //접수 경로
 }
 
+func (c *CustomerInformation) Validate() error {
+	return nil
+}
+
 //AccountTransfer 구조체는 계좌이체 정보를 저장하는 구조체이다.
 type AccountTransfer struct {
 	Bank                string `form:"c_bank_cd" json:"c_bank_cd,omitempty"`         //지급은행
@@ -31,6 +35,10 @@ type AccountTransfer struct {
 	OwenerName          string `form:"c_bank_name" json:"c_bank_name,omitempty"`     //예금주
 	RegistrationNumber1 string `form:"c_bank_jumin1" json:"c_bank_jumin1,omitempty"` //예금주 주민번호 앞자리
 	RegistrationNumber2 string `form:"c_bank_jumin2" json:"c_bank_jumin2,omitempty"` //예금주 주민번호 뒷자리
+}
+
+func (a *AccountTransfer) Validate() error {
+	return nil
 }
 
 //CreditCard 구조체는 신용카드 정보를 저장하는 구조체이다.
@@ -44,6 +52,10 @@ type CreditCard struct {
 	RegistrationNumber2 string `form:"c_card_jumin2" json:"c_card_jumin2,omitempty"` //카드주 주민번호 뒷자리
 }
 
+func (c *CreditCard) Validate() error {
+	return nil
+}
+
 //Billing 구조체는 지로납부 정보를 저장하는 구조체이다.
 //현재 지로납부에 대해서는 저장해야할 데이터가 없다.
 type Billing struct{}
@@ -54,6 +66,10 @@ type Summing struct {
 	Comments string `form:"g_sum_money_txt" json:"g_sum_money_txt,omitempty"` //합산 비고
 }
 
+func (s *Summing) Validate() error {
+	return nil
+}
+
 //PaymentInformation 구조체는 납부 정보를 저장하는 구조체이다.
 type PaymentInformation struct {
 	PaymentType     string          `form:"g_give_type" json:"g_give_type,omitempty"` //납부 정보
@@ -62,6 +78,10 @@ type PaymentInformation struct {
 	CreditCard      CreditCard      `json:"credit,omitempty"`                         //카드납부
 	Billing         Billing         `json:"billing,omitempty"`                        //지로납부
 	Summing         Summing         `json:"summing,omitempty"`                        // 합산청구
+}
+
+func (p *PaymentInformation) Validate() error {
+	return nil
 }
 
 //GiftAccount 구조체는 사은품 계좌 정보를 저장하는 구조체이다.
@@ -169,4 +189,8 @@ type Membership struct {
 	NumberMoving        NumberMoving        `json:"number_moving,omitempty"`
 	Comments            Comments            `json:"comments,omitempty"`
 	Attachments         Attachments         `json:"attachments,omitempty"`
+}
+
+func (m *Membership) Validate() error {
+	return nil
 }

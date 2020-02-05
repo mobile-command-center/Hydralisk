@@ -2,10 +2,30 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 )
+
+type Config struct {
+	Aws string `json:"aws"`
+}
+
+var (
+	c = &Config{}
+)
+
+func init() {
+	conf, err := ioutil.ReadFile("aws.json")
+	if err != nil {
+		panic(err)
+	}
+
+	if err = json.Unmarshal(conf, c); err != nil {
+		panic(err)
+	}
+}
 
 func main() {
 	conf, err := ioutil.ReadFile("data.json")
@@ -13,7 +33,11 @@ func main() {
 		panic(err)
 	}
 
-	res, err := http.Post("http://localhost:9090/register", "application/json", bytes.NewReader(conf))
+	fmt.Println(c.Aws)
+	req, _ := http.NewRequest("POST", c.Aws, bytes.NewReader(conf))
+
+	c := http.Client{}
+	res, err := c.Do(req)
 	if err != nil {
 		fmt.Println(err)
 	}
