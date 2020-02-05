@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/gorilla/schema"
@@ -27,7 +28,12 @@ var (
 )
 
 func registrationHandler(w http.ResponseWriter, r *http.Request) {
-	decoder := json.NewDecoder(r.Body)
+	reqBody, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	decoder := json.NewDecoder(bytes.NewBuffer(reqBody))
 	membership := &goods.Membership{}
 	if err := decoder.Decode(membership); err != nil {
 		fmt.Fprintln(w, http.StatusBadRequest)
