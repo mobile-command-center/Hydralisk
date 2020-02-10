@@ -2,6 +2,7 @@ package user
 
 import (
 	"bytes"
+	"golang.org/x/text/encoding/korean"
 	"io"
 	"mime/multipart"
 	"net/url"
@@ -18,7 +19,10 @@ func makeMultiPart(v url.Values) (string, string) {
 		var fw io.Writer
 		fw, _ = w.CreateFormField(key)
 		for _, value := range r {
-			_, _ = io.Copy(fw, strings.NewReader(value))
+			//value type string. to make value as EUCKR
+			euckr := korean.EUCKR.NewEncoder()
+			s, _ := euckr.String(value)
+			_, _ = io.Copy(fw, strings.NewReader(s))
 		}
 	}
 	w.Close()

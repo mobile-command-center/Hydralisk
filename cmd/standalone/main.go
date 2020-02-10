@@ -23,6 +23,10 @@ type Config struct {
 	Password    string `json:"password"` //Admin password
 }
 
+type MyEvent struct {
+	Membership goods.Membership `json:"membership"`
+}
+
 var (
 	c = &Config{}
 )
@@ -33,7 +37,7 @@ func registrationHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 	decoder := json.NewDecoder(bytes.NewBuffer(reqBody))
-	membership := &goods.Membership{}
+	membership := &MyEvent{}
 
 	if err := decoder.Decode(membership); err != nil {
 		fmt.Fprintln(w, http.StatusBadRequest)
@@ -44,18 +48,13 @@ func registrationHandler(w http.ResponseWriter, r *http.Request) {
 
 		encoder := schema.NewEncoder()
 		encoder.SetAliasTag("form")
-
-		if err := goods.Validate(membership); err != nil {
-			log.Println(err)
-		}
-
 		_ = encoder.Encode(membership, formValue)
 
 		u.Login(c.LoginUrl)
 		u.Register(c.RegisterUrl, formValue)
 		defer u.Logout(c.LogoutUrl)
 
-		fmt.Fprintf(w, "%s", http.StatusOK)
+		fmt.Fprintf(w, "%d", http.StatusOK)
 	}
 }
 
