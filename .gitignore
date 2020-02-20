@@ -4,7 +4,7 @@ standalone
 info.json
 sample.txt
 lambda
-client
+cmd/client
 data.json
 aws.json
 json_generator

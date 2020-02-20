@@ -28,13 +28,13 @@ func init() {
 }
 
 func main() {
-	conf, err := ioutil.ReadFile("data.json")
+	conf, err := ioutil.ReadFile("client.json")
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Println(c.Aws)
-	req, _ := http.NewRequest("POST", c.Aws, bytes.NewReader(conf))
+	req, _ := http.NewRequest("POST", "http://localhost:9090/register", bytes.NewReader(conf))
 
 	c := http.Client{}
 	res, err := c.Do(req)
