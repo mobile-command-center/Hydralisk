@@ -24,10 +24,6 @@ type Config struct {
 	Password    string `json:"password"` //Admin password
 }
 
-type MyEvent struct {
-	Membership goods.Membership `json:"membership"`
-}
-
 var (
 	c          = &Config{}
 	membership = &goods.Membership{

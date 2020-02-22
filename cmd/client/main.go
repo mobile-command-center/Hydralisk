@@ -34,7 +34,7 @@ func main() {
 	}
 
 	fmt.Println(c.Aws)
-	req, _ := http.NewRequest("POST", "http://localhost:9090/register", bytes.NewReader(conf))
+	req, _ := http.NewRequest("POST", c.Aws, bytes.NewReader(conf))
 
 	c := http.Client{}
 	res, err := c.Do(req)
