@@ -80,8 +80,6 @@ func registrationHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, http.StatusBadRequest)
 	}
 
-	fmt.Printf("Client\n%+v\n", client)
-
 	converter := goods.NewConverter(*client)
 
 	if err := converter.Convert(membership); err != nil {
@@ -94,8 +92,6 @@ func registrationHandler(w http.ResponseWriter, r *http.Request) {
 	encoder := schema.NewEncoder()
 	encoder.SetAliasTag("form")
 	encoder.Encode(membership, formValue)
-
-	fmt.Printf("formValue\n%+v\n", formValue)
 
 	u.Login(c.LoginUrl)
 	defer u.Logout(c.LogoutUrl)

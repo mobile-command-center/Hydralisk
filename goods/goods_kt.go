@@ -56,10 +56,11 @@ func ktTv(c client.Client) string {
 
 func ktTvAdd(c client.Client) string {
 	item := map[string]string{
-		"총 1대 설치(추가없음)": "1",
-		"총 2대 설치":       "2",
-		"총 3대 설치":       "3",
-		"총 4대 설치":       "4",
+		"신청안함(인터넷단독시)":  "없음",
+		"총 1대 설치(추가없음)": "총1대설치",
+		"총 2대 설치":       "총2대설치",
+		"총 3대 설치":       "총3대설치",
+		"총 4대 설치":       "총4대설치",
 	}
 	return item[c.BoardTvAdd]
 }
@@ -90,7 +91,6 @@ func ktCombination(c client.Client) string {
 		"신청안함":       "없음",
 		"인터넷-인터넷 결합": "★패밀리★",
 	}
-	fmt.Println(c.Combination)
 	return item[c.Combination]
 }
 
@@ -106,7 +106,6 @@ func ktGiftCardCode(c client.Client) string {
 func newKtInternet(c client.Client, company *CommCompany) *DummyItem {
 	article := company.Article["인터넷"]
 
-	fmt.Println(article.Sale[ktCombination(c)])
 	return &DummyItem{
 		Item:            article.Article,
 		Option:          article.Options[ktInternet(c)],
