@@ -2,12 +2,14 @@ package main
 
 import (
 	"context"
-	"errors"
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/gorilla/schema"
 	"github.com/mobile-command-center/Hydralisk/client"
 	"github.com/mobile-command-center/Hydralisk/goods"
 	"github.com/mobile-command-center/Hydralisk/user"
+	"github.com/sirupsen/logrus"
+	"net/http"
 	"net/url"
 	"os"
 )
@@ -64,12 +66,29 @@ var (
 			},
 		},
 	}
+	log = logrus.New()
 )
 
-func Handler(ctx context.Context, client client.Client) error {
+type Response events.APIGatewayProxyResponse
+
+func newResponse(status int) Response {
+	return Response{
+		StatusCode:      status,
+		IsBase64Encoded: false,
+		Headers: map[string]string{
+			"Access-Control-Allow-Origin": "*",
+			"Content-Type":                "text/plain;charset-utf-8",
+		},
+	}
+}
+
+func Handler(ctx context.Context, client client.Client) (Response, error) {
+
+	log.Debug(client)
+
 	converter := goods.NewConverter(client)
 	if err := converter.Convert(membership); err != nil {
-		return errors.New("Membership converting error")
+		return newResponse(http.StatusInternalServerError), err
 	}
 
 	u := user.NewUser(c.Id, c.Password)
@@ -78,16 +97,29 @@ func Handler(ctx context.Context, client client.Client) error {
 
 	encoder := schema.NewEncoder()
 	encoder.SetAliasTag("form")
-	encoder.Encode(membership, formValue)
+	err := encoder.Encode(membership, formValue)
+	if err != nil {
+		return newResponse(http.StatusInternalServerError), err
+	}
 
-	u.Login(c.LoginUrl)
+	status, err := u.Login(c.LoginUrl)
+	if err != nil {
+		return newResponse(status), err
+	}
 	defer u.Logout(c.LogoutUrl)
-	u.Register(c.RegisterUrl, formValue)
 
-	return nil
+	log.Debug(formValue.Encode())
+
+	status, err = u.Register(c.RegisterUrl, formValue)
+	if err != nil {
+		return newResponse(status), err
+	}
+
+	return newResponse(http.StatusOK), nil
 }
 
 func init() {
+	log.SetLevel(logrus.DebugLevel)
 	membership.AdminInformation.Yuchi = c.Id
 	membership.AdminInformation.Jupsu = c.Id
 }

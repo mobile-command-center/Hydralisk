@@ -311,9 +311,10 @@ func getLguArticle() map[string]*Article {
 		"TV": &Article{
 			Article: "86",
 			Options: map[string]string{
-				"베이직(185CH)":       "141",
-				"프리미엄(224CH)":      "142",
-				"프리미엄 넷플릭스(224CH)": "1842",
+				"베이직(185CH)":           "141",
+				"프리미엄(224CH)":          "142",
+				"프리미엄 넷플릭스 HD(224CH)":  "1728",
+				"프리미엄 넷플릭스 UHD(224CH)": "1842",
 			},
 			Promise: map[string]string{
 				"3년약정": "64",

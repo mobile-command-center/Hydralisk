@@ -8,8 +8,8 @@ import (
 	"github.com/mobile-command-center/Hydralisk/client"
 	"github.com/mobile-command-center/Hydralisk/goods"
 	"github.com/mobile-command-center/Hydralisk/user"
+	"github.com/sirupsen/logrus"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 )
@@ -62,6 +62,7 @@ var (
 			},
 		},
 	}
+	log = logrus.New()
 )
 
 func registrationHandler(w http.ResponseWriter, r *http.Request) {
@@ -69,6 +70,7 @@ func registrationHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
+	log.Debug(string(reqBody))
 	decoder := json.NewDecoder(bytes.NewBuffer(reqBody))
 
 	client := &client.Client{}
@@ -87,18 +89,27 @@ func registrationHandler(w http.ResponseWriter, r *http.Request) {
 
 	encoder := schema.NewEncoder()
 	encoder.SetAliasTag("form")
-	encoder.Encode(membership, formValue)
+	if err := encoder.Encode(membership, formValue); err != nil {
+		fmt.Fprintln(w, http.StatusInternalServerError)
+	}
 
-	u.Login(c.LoginUrl)
+	status, err := u.Login(c.LoginUrl)
+	if err != nil {
+		fmt.Fprintln(w, status)
+	}
 	defer u.Logout(c.LogoutUrl)
-	u.Register(c.RegisterUrl, formValue)
 
+	log.Debug(formValue.Encode())
+	status, err = u.Register(c.RegisterUrl, formValue)
+	if err != nil {
+		fmt.Fprintln(w, status)
+	}
 	fmt.Fprintln(w, "%d", http.StatusOK)
 }
 
 func init() {
-	log.Println("Hydralisk ERP server starting...")
-	log.Println("Loading access information...")
+	log.Info("Hydralisk ERP server starting...")
+	log.Info("Loading access information...")
 	conf, err := ioutil.ReadFile("info.json")
 	if err != nil {
 		panic(err)
@@ -108,10 +119,11 @@ func init() {
 		panic(err)
 	}
 
+	log.SetLevel(logrus.DebugLevel)
 	membership.AdminInformation.Yuchi = c.Id
 	membership.AdminInformation.Jupsu = c.Id
 
-	log.Println("Initialization success...")
+	log.Info("Initialization success...")
 }
 
 func main() {
