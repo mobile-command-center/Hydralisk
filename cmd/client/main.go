@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"github.com/gorilla/schema"
 	"github.com/mobile-command-center/Hydralisk/client"
 	"io"
@@ -81,7 +80,6 @@ func main() {
 	}
 	req.Header.Set("Content-Type", ct)
 	cl := strconv.FormatInt(req.ContentLength, 10)
-	fmt.Println(cl)
 	req.Header.Set("Content-Length", cl)
 
 	c := &http.Client{}

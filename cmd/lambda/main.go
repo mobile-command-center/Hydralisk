@@ -76,8 +76,6 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	resp := events.APIGatewayProxyResponse{Headers: make(map[string]string)}
 	resp.Headers["Access-Control-Allow-Origin"] = "*"
 
-	log.Info(request.MultiValueHeaders)
-
 	r := http.Request{}
 	r.Header = make(map[string][]string)
 	for k, v := range request.Headers {
@@ -112,7 +110,6 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		resp.Body = "Parsing multi part form failed"
 		return resp, err
 	}
-	log.Info(r.PostForm)
 
 	decoder := schema.NewDecoder()
 	decoder.SetAliasTag("form")
@@ -124,6 +121,8 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		resp.Body = "Post form decoding failed"
 		return resp, err
 	}
+
+	log.Info(client)
 
 	converter := goods.NewConverter(*client)
 	err = converter.Convert(membership)
@@ -146,6 +145,8 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return resp, err
 	}
 
+	log.Info(membership)
+
 	_, err = u.Login(c.LoginUrl)
 	if err != nil {
 		resp.StatusCode = http.StatusUnauthorized
@@ -154,15 +155,12 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	}
 	defer u.Logout(c.LogoutUrl)
 
-	log.Debug(formValue.Encode())
-
 	_, err = u.Register(c.RegisterUrl, formValue)
 	if err != nil {
 		resp.StatusCode = 500
 		resp.Body = "Data sending failed"
 		return resp, err
 	}
-
 	return resp, nil
 }
 

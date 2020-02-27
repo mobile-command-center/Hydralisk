@@ -50,4 +50,5 @@ type Client struct {
 	MoveAuth                string `json:"g_move_auth" form:"g_move_auth"`                               //기존 통신사
 	MoveNo                  string `json:"g_move_no" form:"g_move_no"`                                   //기존 통신사
 	Combination             string `json:"p_combiation" form:"p_combiation"`                             //결합
+	ContentType             string `json:"content_type,omitempty" form:"content_type,omitempty"`
 }
