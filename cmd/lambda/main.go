@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"encoding/base64"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/gorilla/schema"
@@ -9,6 +11,7 @@ import (
 	"github.com/mobile-command-center/Hydralisk/goods"
 	"github.com/mobile-command-center/Hydralisk/user"
 	"github.com/sirupsen/logrus"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
@@ -69,26 +72,65 @@ var (
 	log = logrus.New()
 )
 
-type Response events.APIGatewayProxyResponse
+func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	resp := events.APIGatewayProxyResponse{Headers: make(map[string]string)}
+	resp.Headers["Access-Control-Allow-Origin"] = "*"
 
-func newResponse(status int) Response {
-	return Response{
-		StatusCode:      status,
-		IsBase64Encoded: false,
-		Headers: map[string]string{
-			"Access-Control-Allow-Origin": "*",
-			"Content-Type":                "text/plain;charset-utf-8",
-		},
+	log.Info(request.MultiValueHeaders)
+
+	r := http.Request{}
+	r.Header = make(map[string][]string)
+	for k, v := range request.Headers {
+		if k == "content-type" || k == "Content-Type" {
+			r.Header.Set(k, v)
+		}
 	}
-}
 
-func Handler(ctx context.Context, client client.Client) (Response, error) {
+	log.Info(request.Body)
 
-	log.Debug(client)
+	var body []byte
+	var err error
 
-	converter := goods.NewConverter(client)
-	if err := converter.Convert(membership); err != nil {
-		return newResponse(http.StatusInternalServerError), err
+	if request.IsBase64Encoded {
+		body, err = base64.StdEncoding.DecodeString(request.Body)
+		r.Body = ioutil.NopCloser(bytes.NewBuffer(body))
+	} else {
+		r.Body = ioutil.NopCloser(bytes.NewBuffer([]byte(request.Body)))
+	}
+
+	if err != nil {
+		resp.StatusCode = 403
+		resp.Body = "Could not read request body"
+		return resp, err
+	}
+
+	maxMemory := int64(len(request.Body))
+	err = r.ParseMultipartForm(maxMemory)
+	if err != nil {
+		log.Debug(err)
+		resp.StatusCode = 500
+		resp.Body = "Parsing multi part form failed"
+		return resp, err
+	}
+	log.Info(r.PostForm)
+
+	decoder := schema.NewDecoder()
+	decoder.SetAliasTag("form")
+
+	client := &client.Client{}
+	err = decoder.Decode(client, r.PostForm)
+	if err != nil {
+		resp.StatusCode = 500
+		resp.Body = "Post form decoding failed"
+		return resp, err
+	}
+
+	converter := goods.NewConverter(*client)
+	err = converter.Convert(membership)
+	if err != nil {
+		resp.StatusCode = 500
+		resp.Body = "Item converting failed"
+		return resp, err
 	}
 
 	u := user.NewUser(c.Id, c.Password)
@@ -97,25 +139,31 @@ func Handler(ctx context.Context, client client.Client) (Response, error) {
 
 	encoder := schema.NewEncoder()
 	encoder.SetAliasTag("form")
-	err := encoder.Encode(membership, formValue)
+	err = encoder.Encode(membership, formValue)
 	if err != nil {
-		return newResponse(http.StatusInternalServerError), err
+		resp.StatusCode = 500
+		resp.Body = "Form value for ERP encoding failed"
+		return resp, err
 	}
 
-	status, err := u.Login(c.LoginUrl)
+	_, err = u.Login(c.LoginUrl)
 	if err != nil {
-		return newResponse(status), err
+		resp.StatusCode = http.StatusUnauthorized
+		resp.Body = "Login failed"
+		return resp, err
 	}
 	defer u.Logout(c.LogoutUrl)
 
 	log.Debug(formValue.Encode())
 
-	status, err = u.Register(c.RegisterUrl, formValue)
+	_, err = u.Register(c.RegisterUrl, formValue)
 	if err != nil {
-		return newResponse(status), err
+		resp.StatusCode = 500
+		resp.Body = "Data sending failed"
+		return resp, err
 	}
 
-	return newResponse(http.StatusOK), nil
+	return resp, nil
 }
 
 func init() {

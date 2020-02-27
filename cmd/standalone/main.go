@@ -104,7 +104,7 @@ func registrationHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Fprintln(w, status)
 	}
-	fmt.Fprintln(w, "%d", http.StatusOK)
+	fmt.Fprintln(w, http.StatusOK)
 }
 
 func init() {
