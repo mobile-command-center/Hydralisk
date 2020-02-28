@@ -5,7 +5,7 @@ import (
 	"github.com/mobile-command-center/Hydralisk/client"
 )
 
-func skylifeParser(i *ItemInformation, c client.Client, company *CommCompany) {
+func skylifeParser(i *ItemInformation, c client.Client, company *CommCompany) int {
 	fmt.Println("SKYLIFE PARSER")
 	fieldPosition := 3
 
@@ -18,6 +18,7 @@ func skylifeParser(i *ItemInformation, c client.Client, company *CommCompany) {
 		convert(i, fieldPosition, newSkylifeTv(c, company))
 		fieldPosition = fieldPosition + 1
 	}
+	return fieldPosition - 3
 }
 
 func skylifeInternet(c client.Client) string {

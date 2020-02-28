@@ -3,7 +3,6 @@ package goods
 import (
 	"github.com/mobile-command-center/Hydralisk/client"
 	"reflect"
-	"strconv"
 )
 
 func NewConverter(client client.Client) *Converter {
@@ -69,31 +68,14 @@ func replaceCompanyName(s string) string {
 	return comm[s]
 }
 
-func newServiceParser() map[string]func(*ItemInformation, client.Client, *CommCompany) {
-	return map[string]func(*ItemInformation, client.Client, *CommCompany){
+func newServiceParser() map[string]func(*ItemInformation, client.Client, *CommCompany) int {
+	return map[string]func(*ItemInformation, client.Client, *CommCompany) int{
 		"SK":      skParser,
 		"KT":      ktParser,
 		"LG":      lgParser,
 		"skylife": skylifeParser,
 		"CJ":      cjParser,
 	}
-}
-
-func getGoodsCount(c client.Client) string {
-	var goodCount int
-	if c.BoardInternet != "" {
-		goodCount++
-	}
-
-	if c.BoardTv != "" {
-		goodCount++
-	}
-
-	if c.BoardTel != "" {
-		goodCount++
-	}
-
-	return strconv.Itoa(goodCount)
 }
 
 //GetMoveCommCompany 함수는 번호이동 통신사를 ERP시스템에 맞는 값으로 치환해주는 함수이다.

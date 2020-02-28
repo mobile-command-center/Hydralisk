@@ -75,6 +75,7 @@ var (
 func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	resp := events.APIGatewayProxyResponse{Headers: make(map[string]string)}
 	resp.Headers["Access-Control-Allow-Origin"] = "*"
+	resp.StatusCode = http.StatusOK
 
 	r := http.Request{}
 	r.Header = make(map[string][]string)

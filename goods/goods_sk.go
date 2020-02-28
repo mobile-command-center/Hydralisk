@@ -5,7 +5,7 @@ import (
 	"github.com/mobile-command-center/Hydralisk/client"
 )
 
-func skParser(i *ItemInformation, c client.Client, company *CommCompany) {
+func skParser(i *ItemInformation, c client.Client, company *CommCompany) int {
 	fmt.Println("SK PARSER")
 	fieldPosition := 3
 
@@ -22,6 +22,7 @@ func skParser(i *ItemInformation, c client.Client, company *CommCompany) {
 	if skPhone(c) != "" {
 		convert(i, fieldPosition, newSkPhone(c, company))
 	}
+	return fieldPosition - 3
 }
 
 func skInternet(c client.Client) string {

@@ -5,7 +5,7 @@ import (
 	"github.com/mobile-command-center/Hydralisk/client"
 )
 
-func ktParser(i *ItemInformation, c client.Client, company *CommCompany) {
+func ktParser(i *ItemInformation, c client.Client, company *CommCompany) int {
 	fmt.Println("KT PARSER")
 	fieldPosition := 3
 
@@ -22,6 +22,7 @@ func ktParser(i *ItemInformation, c client.Client, company *CommCompany) {
 	if ktPhone(c) != "" {
 		convert(i, fieldPosition, newKtPhone(c, company))
 	}
+	return fieldPosition - 3
 }
 
 func ktInternet(c client.Client) string {

@@ -5,7 +5,7 @@ import (
 	"github.com/mobile-command-center/Hydralisk/client"
 )
 
-func cjParser(i *ItemInformation, c client.Client, company *CommCompany) {
+func cjParser(i *ItemInformation, c client.Client, company *CommCompany) int {
 	fmt.Println("CJ PARSER")
 	fieldPosition := 3
 
@@ -22,6 +22,7 @@ func cjParser(i *ItemInformation, c client.Client, company *CommCompany) {
 	if cjPhone(c) != "" {
 		convert(i, fieldPosition, newCjPhone(c, company))
 	}
+	return fieldPosition - 3
 }
 
 func cjInternet(c client.Client) string {

@@ -2,6 +2,7 @@ package goods
 
 import (
 	"github.com/mobile-command-center/Hydralisk/client"
+	"strconv"
 )
 
 //AdminInformation 구조체는 고객등록시 필요한 관리자 ID이다. Cookie로 받아올 수 있다.
@@ -286,10 +287,11 @@ func (i *ItemInformation) Convert(c client.Client) {
 
 	i.Company = commCompany.CompanyCode
 	i.Location = commCompany.AreaCode
-	i.GoodsCount = getGoodsCount(c)
 
 	parser := newServiceParser()
-	parser[c.Vendor](i, c, commCompany)
+	count := parser[c.Vendor](i, c, commCompany)
+
+	i.GoodsCount = strconv.Itoa(count)
 }
 
 //NumberMoving 구조체는 번호이동 정보를 저장하는 구조체이다.
