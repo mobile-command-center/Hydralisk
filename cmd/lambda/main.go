@@ -114,6 +114,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 
 	decoder := schema.NewDecoder()
 	decoder.SetAliasTag("form")
+	decoder.IgnoreUnknownKeys(true)
 
 	client := &client.Client{}
 	err = decoder.Decode(client, r.PostForm)
