@@ -5,27 +5,27 @@ import (
 	"github.com/mobile-command-center/Hydralisk/client"
 )
 
-func skParser(i *ItemInformation, c client.Client, company *CommCompany) int {
-	fmt.Println("SK PARSER")
+func skbParser(i *ItemInformation, c client.Client, company *CommCompany) int {
+	fmt.Println("SKB PARSER")
 	fieldPosition := 3
 
-	if skInternet(c) != "" {
-		convert(i, fieldPosition, newSkInternet(c, company))
+	if skbInternet(c) != "" {
+		convert(i, fieldPosition, newSkbInternet(c, company))
 		fieldPosition = fieldPosition + 1
 	}
 
-	if skTv(c) != "" {
-		convert(i, fieldPosition, newSkTv(c, company))
+	if skbTv(c) != "" {
+		convert(i, fieldPosition, newSkbTv(c, company))
 		fieldPosition = fieldPosition + 1
 	}
 
-	if skPhone(c) != "" {
-		convert(i, fieldPosition, newSkPhone(c, company))
+	if skbPhone(c) != "" {
+		convert(i, fieldPosition, newSkbPhone(c, company))
 	}
 	return fieldPosition - 3
 }
 
-func skInternet(c client.Client) string {
+func skbInternet(c client.Client) string {
 	item := map[string]string{
 		"스마트 다이렉트(100M)":  "100M",
 		"기가인터넷 라이트(500M)": "500M",
@@ -37,7 +37,7 @@ func skInternet(c client.Client) string {
 	return item[c.BoardInternet]
 }
 
-func skWifi(c client.Client) string {
+func skbWifi(c client.Client) string {
 	item := map[string]string{
 		"신청안함(기존 공유기 사용)": "와이파이신청안함",
 		"신청":              "와이파이신청함",
@@ -45,7 +45,7 @@ func skWifi(c client.Client) string {
 	return item[c.BoardWifi]
 }
 
-func skTv(c client.Client) string {
+func skbTv(c client.Client) string {
 	item := map[string]string{
 		"신청안함(인터넷 단독시)":     "",
 		"B TV Lite - 211채널": "라이트(212CH)",
@@ -54,7 +54,7 @@ func skTv(c client.Client) string {
 	return item[c.BoardTv]
 }
 
-func skTvAdd(c client.Client) string {
+func skbTvAdd(c client.Client) string {
 	item := map[string]string{
 		"신청안함(인터넷단독시)":  "없음",
 		"총 1대 설치(추가없음)": "총1대설치",
@@ -65,7 +65,7 @@ func skTvAdd(c client.Client) string {
 	return item[c.BoardTvAdd]
 }
 
-func skSettop(c client.Client) string {
+func skbSettop(c client.Client) string {
 	item := map[string]string{
 		"신청안함(인터넷 단독시)": "없음",
 		"스마트티비셋탑":       "스마트3셋탑",
@@ -74,7 +74,7 @@ func skSettop(c client.Client) string {
 	return item[c.BoardSettop]
 }
 
-func skPhone(c client.Client) string {
+func skbPhone(c client.Client) string {
 	item := map[string]string{
 		"신청안함N":              "",
 		"일반(유선)전화 - 신규가입N":   "신규가입",
@@ -85,7 +85,7 @@ func skPhone(c client.Client) string {
 	return item[c.BoardTel]
 }
 
-func skCombination(c client.Client) string {
+func skbCombination(c client.Client) string {
 	item := map[string]string{
 		"결합없음":        "없음",
 		"1대결합(온프리)":   "온프리(1회선)",
@@ -96,7 +96,7 @@ func skCombination(c client.Client) string {
 	return item[c.Combination]
 }
 
-func skGiftCardCode(c client.Client) string {
+func skbGiftCardCode(c client.Client) string {
 	item := map[string]string{
 		"0": "",
 		"1": "신세계 상품권",
@@ -107,17 +107,17 @@ func skGiftCardCode(c client.Client) string {
 	return item[c.SpGiftCardCode]
 }
 
-func newSkInternet(c client.Client, company *CommCompany) *DummyItem {
+func newSkbInternet(c client.Client, company *CommCompany) *DummyItem {
 	article := company.Article["인터넷"]
 
 	return &DummyItem{
 		Item:            article.Article,
-		Option:          article.Options[skInternet(c)],
+		Option:          article.Options[skbInternet(c)],
 		Promise:         article.Promise["3년약정"],
-		Sale:            article.Sale[skCombination(c)],
-		Service:         article.Service[skWifi(c)],
+		Sale:            article.Sale[skbCombination(c)],
+		Service:         article.Service[skbWifi(c)],
 		LineCount:       "1",
-		GiftName:        skGiftCardCode(c),
+		GiftName:        skbGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
 		GiftPaymentType: "",
@@ -127,15 +127,15 @@ func newSkInternet(c client.Client, company *CommCompany) *DummyItem {
 	}
 }
 
-func newSkTv(c client.Client, company *CommCompany) *DummyItem {
+func newSkbTv(c client.Client, company *CommCompany) *DummyItem {
 	article := company.Article["BTV"]
 
 	return &DummyItem{
 		Item:            article.Article,
-		Option:          article.Options[skTv(c)],
+		Option:          article.Options[skbTv(c)],
 		Promise:         article.Promise["3년약정"],
-		Sale:            article.Sale[skSettop(c)],
-		Service:         article.Service[skTvAdd(c)],
+		Sale:            article.Sale[skbSettop(c)],
+		Service:         article.Service[skbTvAdd(c)],
 		LineCount:       "1",
 		GiftName:        "",
 		GiftPrice:       "",
@@ -147,12 +147,12 @@ func newSkTv(c client.Client, company *CommCompany) *DummyItem {
 	}
 }
 
-func newSkPhone(c client.Client, company *CommCompany) *DummyItem {
+func newSkbPhone(c client.Client, company *CommCompany) *DummyItem {
 	article := company.Article["전화"]
 
 	return &DummyItem{
 		Item:            article.Article,
-		Option:          article.Options[skPhone(c)],
+		Option:          article.Options[skbPhone(c)],
 		Promise:         article.Promise["3년약정"],
 		Sale:            "0",
 		Service:         article.Service["없음"],

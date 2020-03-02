@@ -49,4 +49,7 @@ type Client struct {
 	MoveAuth                string `json:"g_move_auth" form:"g_move_auth"`                               //기존 통신사
 	MoveNo                  string `json:"g_move_no" form:"g_move_no"`                                   //기존 통신사
 	Combination             string `json:"p_combiation" form:"p_combiation"`                             //결합
+	RentalVendor            string `json:"p_vendor" form:"p_vendor"`                                     //Rental 회사
+	RentalProduct           string `json:"p_product" form:"p_product"`                                   //Rental 제품
+	RentalPromise           string `json:"p_promise" form:"p_promise"`                                   //Rental 약정
 }

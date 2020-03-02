@@ -18,17 +18,13 @@ func cjParser(i *ItemInformation, c client.Client, company *CommCompany) int {
 		convert(i, fieldPosition, newCjTv(c, company))
 		fieldPosition = fieldPosition + 1
 	}
-
-	if cjPhone(c) != "" {
-		convert(i, fieldPosition, newCjPhone(c, company))
-	}
 	return fieldPosition - 3
 }
 
 func cjInternet(c client.Client) string {
 	item := map[string]string{
-		"광랜라이트+(100MB)": "광랜(160M)",
-		"광랜(160MB)":     "광랜+(160M)",
+		"광랜라이트+(100MB)": "광랜라이트(100M)",
+		"광랜(160MB)":     "광랜(160M)",
 		"기가라이트(500MB)":  "기가라이트(500M)",
 		"플래티넘기가(1G)":    "플래티넘기가(1G)",
 	}
@@ -40,8 +36,8 @@ func cjInternet(c client.Client) string {
 
 func cjWifi(c client.Client) string {
 	item := map[string]string{
-		"신청안함": "없음",
-		"신청":   "WIFI(보급형)",
+		"신청안함": "와이파이신청안함",
+		"신청":   "와이파이신청",
 	}
 	return item[c.BoardWifi]
 }
@@ -57,8 +53,8 @@ func cjTv(c client.Client) string {
 func cjTvAdd(c client.Client) string {
 	item := map[string]string{
 		"신청안함":    "없음",
-		"베이직 HD":  "없음",
-		"이코노미 HD": "없음",
+		"베이직 HD":  "총1대설치",
+		"이코노미 HD": "총2대설치",
 	}
 	return item[c.BoardTvAdd]
 }
@@ -121,27 +117,7 @@ func newCjTv(c client.Client, company *CommCompany) *DummyItem {
 		Option:          article.Options[cjTv(c)],
 		Promise:         article.Promise["3년약정"],
 		Sale:            article.Sale["UHD셋탑"],
-		Service:         article.Service["없음"],
-		LineCount:       "1",
-		GiftName:        "",
-		GiftPrice:       "",
-		GiftPaymentDay:  "",
-		GiftPaymentType: "",
-		ReviewPrice:     "",
-		TopGiftName:     "",
-		TopGiftPrice:    "",
-	}
-}
-
-func newCjPhone(c client.Client, company *CommCompany) *DummyItem {
-	article := company.Article["전화"]
-
-	return &DummyItem{
-		Item:            article.Article,
-		Option:          article.Options[cjPhone(c)],
-		Promise:         article.Promise["3년약정"],
-		Sale:            "0",
-		Service:         article.Service["없음"],
+		Service:         article.Service[cjTvAdd(c)],
 		LineCount:       "1",
 		GiftName:        "",
 		GiftPrice:       "",

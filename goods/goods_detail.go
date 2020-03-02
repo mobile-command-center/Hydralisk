@@ -124,13 +124,15 @@ func getSkbArticle() map[string]*Article {
 				"3년약정": "33",
 			},
 			Sale: map[string]string{
-				"없음": "259",
+				"없음":        "259",
+				"★패밀리★":     "329",
+				"온가족할인(년수)": "331",
+				"온프리(1회선)":  "332",
+				"기타특이사항확인":  "336",
 			},
 			Service: map[string]string{
-				"미결합":       "4",
-				"온프리(1회선)":  "83",
-				"온가족할인(년수)": "84",
-				"휴대폰직접결합":   "90",
+				"와이파이신청안함": "4",
+				"와이파이신청함":  "118",
 			},
 		},
 		"전화": &Article{
@@ -168,19 +170,12 @@ func getSkbArticle() map[string]*Article {
 				"UHD2셋탑": "304",
 			},
 			Service: map[string]string{
-				"없음":             "19",
-				"TV플러스할인(2200원)": "86",
+				"총1대설치": "19",
+				"총2대설치": "114",
+				"총3대설치": "115",
+				"총4대설치": "116",
+				"없음":    "117",
 			},
-		},
-		"WIFI": &Article{
-			Article: "762",
-			Options: map[string]string{
-				"신청함":  "1840",
-				"신청안함": "1841",
-			},
-			Promise: map[string]string{},
-			Sale:    map[string]string{},
-			Service: map[string]string{},
 		},
 	}
 }
@@ -199,33 +194,32 @@ func getSktArticle() map[string]*Article {
 		"인터넷": &Article{
 			Article: "736",
 			Options: map[string]string{
-				"100M":      "1700",
-				"500M":      "1701",
-				"1G":        "1716",
-				"100M+WIFI": "1717",
-				"500M+WIFI": "1718",
-				"1G+WIFI":   "1719",
+				"100M": "1700",
+				"500M": "1701",
+				"1G":   "1716",
 			},
 			Promise: map[string]string{
 				"3년약정": "84",
 			},
 			Sale: map[string]string{
-				"없음": "301",
+				"없음":        "301",
+				"★패밀리★":     "330",
+				"온플랜(2회선↑)": "333",
+				"온가족할인(년수)": "334",
+				"기타특이사항확인":  "335",
 			},
 			Service: map[string]string{
-				"없음":         "78",
-				"한가족할인(1회선)": "87",
-				"온플랜(2↑)":    "88",
-				"휴대폰직접결합":    "91",
+				"와이파이신청안함": "119",
+				"와이파이신청함":  "120",
 			},
 		},
 		"전화": &Article{
 			Article: "737",
 			Options: map[string]string{
-				"번호이동":    "1703",
 				"신규가입":    "1702",
-				"070번호이동": "1721",
+				"번호이동":    "1703",
 				"070신규":   "1720",
+				"070번호이동": "1721",
 			},
 			Promise: map[string]string{
 				"3년약정": "88",
@@ -254,8 +248,11 @@ func getSktArticle() map[string]*Article {
 				"UHD2셋탑": "307",
 			},
 			Service: map[string]string{
-				"없음":             "85",
-				"TV플러스할인(2200원)": "89",
+				"없음":    "85",
+				"총1대설치": "110",
+				"총2대설치": "111",
+				"총3대설치": "112",
+				"총4대설치": "113",
 			},
 		},
 	}
@@ -349,24 +346,20 @@ func getLgHelloVisionArticle() map[string]*Article {
 		"인터넷": &Article{
 			Article: "744",
 			Options: map[string]string{
-				"광랜(160M)":     "1729",
-				"기가라이트(500M)":  "1730",
-				"플래티넘기가(1G)":   "1731",
-				"광랜+(160M)":    "1736",
-				"기가라이트+(500M)": "1737",
-				"플래티넘기가+(1G)":  "1738",
+				"광랜라이트(100M)": "1848",
+				"광랜(160M)":    "1849",
+				"기가라이트(500M)": "1850",
+				"플래티넘기가(1G)":  "1851",
 			},
 			Promise: map[string]string{
 				"3년약정": "93",
 			},
 			Sale: map[string]string{
-				"없음":        "313",
-				"WIFI(보급형)": "317",
-				"WIFI(고급형)": "318",
+				"없음": "313",
 			},
 			Service: map[string]string{
-				"WIFI신청": "95",
-				"없음":     "96",
+				"와이파이신청":   "95",
+				"와이파이신청안함": "96",
 			},
 		},
 		"TV": &Article{
@@ -384,7 +377,11 @@ func getLgHelloVisionArticle() map[string]*Article {
 				"HD셋탑":  "316",
 			},
 			Service: map[string]string{
-				"없음": "97",
+				"없음":    "97",
+				"총1대설치": "129",
+				"총2대설치": "130",
+				"총3대설치": "131",
+				"총4대설치": "132",
 			},
 		},
 		"전화": &Article{
@@ -419,30 +416,31 @@ func getSkylifeArticle() map[string]*Article {
 		"인터넷": &Article{
 			Article: "747",
 			Options: map[string]string{
-				"100M":      "1739",
-				"200M":      "1740",
-				"1G":        "1741",
-				"100M(30%)": "1742",
-				"200M(30%)": "1743",
+				"100M": "1739",
+				"200M": "1740",
+				"500M": "1846",
+				"1G":   "1847",
 			},
 			Promise: map[string]string{
 				"3년약정": "96",
 			},
 			Sale: map[string]string{
-				"없음":        "319",
-				"WIFI(일반형)": "320",
-				"WIFI(기가)":  "321",
+				"없음":     "319",
+				"홈결합":    "337",
+				"기존KT사용": "338",
 			},
 			Service: map[string]string{
-				"없음": "98",
+				"일반와이파이신청": "126",
+				"기가와이파이신청": "127",
+				"신청안함":     "128",
 			},
 		},
 		"TV": &Article{
 			Article: "748",
 			Options: map[string]string{
-				"Blue A+(218CH)":  "1744",
-				"Green A+(195CH)": "1745",
-				"Green A+(30%)":   "1746",
+				"Blue A+(218CH)":       "1744",
+				"Green A+(195CH)":      "1745",
+				"Green A+(30%)(195CH)": "1746",
 			},
 			Promise: map[string]string{
 				"3년약정": "97",
@@ -452,7 +450,11 @@ func getSkylifeArticle() map[string]*Article {
 				"UHD셋탑": "326",
 			},
 			Service: map[string]string{
-				"없음": "101",
+				"없음":    "101",
+				"총1대설치": "122",
+				"총2대설치": "123",
+				"총3대설치": "124",
+				"총4대설치": "125",
 			},
 		},
 		"기존KT": &Article{
@@ -464,9 +466,7 @@ func getSkylifeArticle() map[string]*Article {
 				"3년약정": "98",
 			},
 			Sale: map[string]string{
-				"없음":        "323",
-				"WIFI(일반형)": "324",
-				"WIFI(기가)":  "325",
+				"없음": "323",
 			},
 			Service: map[string]string{
 				"없음": "100",
