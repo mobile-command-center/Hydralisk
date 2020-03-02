@@ -1,6 +1,7 @@
 package goods
 
 import (
+	"fmt"
 	"github.com/mobile-command-center/Hydralisk/client"
 	"strconv"
 )
@@ -324,6 +325,16 @@ type Comments struct {
 }
 
 func (comment *Comments) Convert(c client.Client) {
+	var s string
+	if c.Vendor == "rental" {
+		fmt.Println("RENTAL")
+		s = c.RentalVendor + " / " + c.RentalProduct + " / " + c.RentalProductName + " / " + c.RentalProductColor + " / " + c.RentalPromise + "\n"
+
+	}
+	if s != "" {
+		comment.Comments = s + c.Bigo
+		return
+	}
 	comment.Comments = c.Bigo
 }
 

@@ -51,5 +51,7 @@ type Client struct {
 	Combination             string `json:"p_combiation" form:"p_combiation"`                             //결합
 	RentalVendor            string `json:"p_vendor" form:"p_vendor"`                                     //Rental 회사
 	RentalProduct           string `json:"p_product" form:"p_product"`                                   //Rental 제품
+	RentalProductName       string `json:"p_product_name" form:"p_product_name"`                         //Rental 제품 이름
+	RentalProductColor      string `json:"p_product_color" form:"p_product_color"`                       //Rental 제품 색상
 	RentalPromise           string `json:"p_promise" form:"p_promise"`                                   //Rental 약정
 }
