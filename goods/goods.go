@@ -1,9 +1,10 @@
 package goods
 
 import (
-	"fmt"
 	"github.com/mobile-command-center/Hydralisk/client"
+	"github.com/sirupsen/logrus"
 	"strconv"
+	"strings"
 )
 
 //AdminInformation 구조체는 고객등록시 필요한 관리자 ID이다. Cookie로 받아올 수 있다.
@@ -289,10 +290,21 @@ func (i *ItemInformation) Convert(c client.Client) {
 	i.Company = commCompany.CompanyCode
 	i.Location = commCompany.AreaCode
 
-	parser := newServiceParser()
-	count := parser[c.Vendor](i, c, commCompany)
+	var count int
+	if c.Vendor != "rental" {
+		parser := newServiceParser()
+		count = parser[c.Vendor](i, c, commCompany)
+	} else {
+		count = 1
+	}
 
 	i.GoodsCount = strconv.Itoa(count)
+
+	log := logrus.New()
+	log.SetLevel(logrus.InfoLevel)
+	log.Printf("First %+v\n", i.FirstItem)
+	log.Printf("Second %+v\n", i.SecondItem)
+	log.Printf("Third %+v\n", i.ThirdItem)
 }
 
 //NumberMoving 구조체는 번호이동 정보를 저장하는 구조체이다.
@@ -327,9 +339,9 @@ type Comments struct {
 func (comment *Comments) Convert(c client.Client) {
 	var s string
 	if c.Vendor == "rental" {
-		fmt.Println("RENTAL")
-		s = c.RentalVendor + " / " + c.RentalProduct + " / " + c.RentalProductName + " / " + c.RentalProductColor + " / " + c.RentalPromise + "\n"
-
+		vendor := strings.Join(c.RentalVendor, " ")
+		product := strings.Join(c.RentalProduct, " ")
+		s = vendor + " / " + product + " / " + c.RentalProductName + " / " + c.RentalProductColor + " / " + c.RentalPromise + "\n"
 	}
 	if s != "" {
 		comment.Comments = s + c.Bigo

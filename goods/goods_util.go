@@ -60,23 +60,25 @@ func getRelationship(s string) string {
 func replaceCompanyName(s string) string {
 	comm := map[string]string{
 		"SKB":     "SKB",
-		"SK":      "SKT",
+		"SKT":     "SKT",
 		"KT":      "KT",
 		"LG":      "LG U+",
 		"skylife": "스카이라이프",
-		"CJ":      "LG헬로비전",
+		"Hello":   "LG헬로비전",
+		"rental":  "렌탈",
 	}
 	return comm[s]
 }
 
 func newServiceParser() map[string]func(*ItemInformation, client.Client, *CommCompany) int {
 	return map[string]func(*ItemInformation, client.Client, *CommCompany) int{
-		"SK":      skParser,
+		"SKT":     skParser,
 		"KT":      ktParser,
 		"LG":      lgParser,
 		"skylife": skylifeParser,
-		"CJ":      cjParser,
+		"Hello":   cjParser,
 		"SKB":     skbParser,
+		"rental":  rentalParser,
 	}
 }
 

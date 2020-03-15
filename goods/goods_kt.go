@@ -21,6 +21,7 @@ func ktParser(i *ItemInformation, c client.Client, company *CommCompany) int {
 
 	if ktPhone(c) != "" {
 		convert(i, fieldPosition, newKtPhone(c, company))
+		fieldPosition = fieldPosition + 1
 	}
 	return fieldPosition - 3
 }

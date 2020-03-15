@@ -209,8 +209,8 @@ func getSktArticle() map[string]*Article {
 				"기타특이사항확인":  "335",
 			},
 			Service: map[string]string{
-				"와이파이신청안함": "119",
-				"와이파이신청함":  "120",
+				"와이파이신청안함": "120",
+				"와이파이신청함":  "119",
 			},
 		},
 		"전화": &Article{
@@ -280,7 +280,8 @@ func getLguArticle() map[string]*Article {
 				"3년약정": "58",
 			},
 			Sale: map[string]string{
-				"없음": "272",
+				"없음":    "272",
+				"★패밀리★": "328",
 			},
 			Service: map[string]string{
 				"없음":      "30",
@@ -293,13 +294,14 @@ func getLguArticle() map[string]*Article {
 				"[WIFI]번호이동": "133",
 				"[WIFI]신규가입": "135",
 				"[CPG]번호이동":  "137",
-				"[CPG]신규":    "139",
+				"[CPG]신규가입":  "139",
 			},
 			Promise: map[string]string{
 				"3년약정": "61",
 			},
 			Sale: map[string]string{
-				"없음": "287",
+				"없음":    "287",
+				"★패밀리★": "328",
 			},
 			Service: map[string]string{
 				"없음": "76",
@@ -377,11 +379,9 @@ func getLgHelloVisionArticle() map[string]*Article {
 				"HD셋탑":  "316",
 			},
 			Service: map[string]string{
-				"없음":    "97",
-				"총1대설치": "129",
-				"총2대설치": "130",
-				"총3대설치": "131",
-				"총4대설치": "132",
+				"베이직HD 1대더추가설치": "129",
+				"이코노미HD1대더추가설치": "130",
+				"추가설치없음":        "131",
 			},
 		},
 		"전화": &Article{

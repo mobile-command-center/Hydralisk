@@ -21,6 +21,7 @@ func skParser(i *ItemInformation, c client.Client, company *CommCompany) int {
 
 	if skPhone(c) != "" {
 		convert(i, fieldPosition, newSkPhone(c, company))
+		fieldPosition = fieldPosition + 1
 	}
 	return fieldPosition - 3
 }
@@ -87,11 +88,11 @@ func skPhone(c client.Client) string {
 
 func skCombination(c client.Client) string {
 	item := map[string]string{
-		"결합없음":        "없음",
-		"1대결합(온프리)":   "온프리(1회선)",
-		"2,30년↑(온할인)": "온가족할인(년수)",
-		"인터넷-인터넷 결합":  "★패밀리★",
-		"기타(요청사항에기입)": "기타특이사항확인",
+		"결합없음":          "없음",
+		"휴대폰 2대이상(온플랜)": "온플랜(2회선↑)",
+		"2,30년 이상(온할인)": "온가족할인(년수)",
+		"SKT인터넷-인터넷 결합": "★패밀리★",
+		"기타(요청란에 기입)":   "기타특이사항확인",
 	}
 	return item[c.Combination]
 }

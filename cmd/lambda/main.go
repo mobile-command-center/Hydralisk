@@ -33,7 +33,12 @@ var (
 		Id:          os.Getenv("ID"),
 		Password:    os.Getenv("PASSWORD"),
 	}
-	membership = &goods.Membership{
+	membership = emptyMembership()
+	log        = logrus.New()
+)
+
+func emptyMembership() *goods.Membership {
+	return &goods.Membership{
 		PaymentInformation: goods.PaymentInformation{
 			AccountTransfer: goods.AccountTransfer{
 				Bank: "0",
@@ -69,13 +74,15 @@ var (
 			},
 		},
 	}
-	log = logrus.New()
-)
+}
 
 func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	resp := events.APIGatewayProxyResponse{Headers: make(map[string]string)}
 	resp.Headers["Access-Control-Allow-Origin"] = "*"
+	resp.Headers["Content-Type"] = "text/plain; charset=utf-8"
 	resp.StatusCode = http.StatusOK
+	resp.IsBase64Encoded = false
+	resp.Body = "가입 신청서가 성공적으로 전송되었습니다."
 
 	r := http.Request{}
 	r.Header = make(map[string][]string)
@@ -124,7 +131,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return resp, err
 	}
 
-	log.Info(client)
+	log.Infof("%+v\n", client)
 
 	converter := goods.NewConverter(*client)
 	err = converter.Convert(membership)
@@ -147,7 +154,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return resp, err
 	}
 
-	log.Info(membership)
+	log.Infof("%+v\n", membership)
 
 	_, err = u.Login(c.LoginUrl)
 	if err != nil {
@@ -163,6 +170,8 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		resp.Body = "Data sending failed"
 		return resp, err
 	}
+
+	membership = emptyMembership()
 	return resp, nil
 }
 

@@ -21,6 +21,7 @@ func lgParser(i *ItemInformation, c client.Client, company *CommCompany) int {
 
 	if lgPhone(c) != "" {
 		convert(i, fieldPosition, newLgPhone(c, company))
+		fieldPosition = fieldPosition + 1
 	}
 	return fieldPosition - 3
 }
@@ -42,7 +43,7 @@ func lgTv(c client.Client) string {
 		"신청안함(인터넷 단독시)":           "",
 		"TV베이직 - 183채널":           "베이직(185CH)",
 		"TV프리미엄 - 223채널":          "프리미엄(224CH)",
-		"TV VOD고급형 - 210채널":       "프리미엄(224CH)",
+		"TV VOD고급형 - 210채널":       "",
 		"프리미엄 넷플릭스HD TV - 223채널":  "프리미엄 넷플릭스 HD(224CH)",
 		"프리미엄 넷플릭스UHD TV - 223채널": "프리미엄 넷플릭스 UHD(224CH)",
 	}
@@ -73,7 +74,7 @@ func lgPhone(c client.Client) string {
 		"신청안함N":              "",
 		"일반(유선)전화 - 신규가입N":   "[CPG]신규가입",
 		"일반(유선)전화 - 번호이동Y":   "[CPG]번호이동",
-		"WiFi(무선)전화 - 신규가입N": "[WIFI]신규",
+		"WiFi(무선)전화 - 신규가입N": "[WIFI]신규가입",
 		"WiFi(무선)전화 - 번호이동Y": "[WIFI]번호이동",
 	}
 	return item[c.BoardTel]
@@ -84,7 +85,6 @@ func lgCombination(c client.Client) string {
 		"신청안함":       "없음",
 		"인터넷-인터넷 결합": "★패밀리★",
 	}
-	fmt.Println(c.Combination)
 	return item[c.Combination]
 }
 

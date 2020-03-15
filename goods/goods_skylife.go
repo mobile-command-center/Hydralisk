@@ -58,11 +58,11 @@ func skylifeTv(c client.Client) string {
 
 func skylifeTvAdd(c client.Client) string {
 	item := map[string]string{
-		"신청안함(인터넷단독시)":  "없음",
-		"총 1대 설치(추가없음)": "총1대설치",
-		"총 2대 설치":       "총2대설치",
-		"총 3대 설치":       "총3대설치",
-		"총 4대 설치":       "총4대설치",
+		"신청안함(인터넷단독)": "없음",
+		"총1대설치":       "총1대설치",
+		"총2대설치":       "총2대설치",
+		"총3대설치":       "총3대설치",
+		"총4대설치":       "총4대설치",
 	}
 	return item[c.BoardTvAdd]
 }
@@ -70,11 +70,7 @@ func skylifeTvAdd(c client.Client) string {
 func skylifeCombination(c client.Client) string {
 	item := map[string]string{
 		"신청안함": "없음",
-		"홈결합": func(c client.Client) string {
-			//if 기존 KT결합 일경우 "기존TK결합"
-			//else
-			return "홈결합"
-		}(c),
+		"홈결합":  "홈결합",
 	}
 	return item[c.Combination]
 }
@@ -109,11 +105,11 @@ func newSkylifeInternet(c client.Client, company *CommCompany) *DummyItem {
 }
 
 func newSkylifeTv(c client.Client, company *CommCompany) *DummyItem {
-	article := company.Article["IPTV"]
+	article := company.Article["TV"]
 
 	return &DummyItem{
 		Item:            article.Article,
-		Option:          article.Options[ktTv(c)],
+		Option:          article.Options[skylifeTv(c)],
 		Promise:         article.Promise["3년약정"],
 		Sale:            article.Sale["없음"],
 		Service:         article.Service[skylifeTvAdd(c)],

@@ -52,30 +52,16 @@ func cjTv(c client.Client) string {
 
 func cjTvAdd(c client.Client) string {
 	item := map[string]string{
-		"신청안함":    "없음",
-		"베이직 HD":  "총1대설치",
-		"이코노미 HD": "총2대설치",
+		"신청안함":    "추가설치없음",
+		"베이직 HD":  "베이직HD 1대더추가설치",
+		"이코노미 HD": "이코노미HD1대더추가설치",
 	}
 	return item[c.BoardTvAdd]
 }
 
-func cjPhone(c client.Client) string {
-	item := map[string]string{
-		"신청안함N":              "",
-		"일반(유선)전화 - 신규가입N":   "[CPG]신규가입",
-		"일반(유선)전화 - 번호이동Y":   "[CPG]번호이동",
-		"WiFi(무선)전화 - 신규가입N": "[WIFI]신규",
-		"WiFi(무선)전화 - 번호이동Y": "[WIFI]번호이동",
-	}
-	return item[c.BoardTel]
-}
-
 func cjCombination(c client.Client) string {
 	item := map[string]string{
-		"신청안함": "없음",
-		"동등결합(KT케이블총액결합할인)":    "없음",
-		"동등결합(SK온가족케이블플랜)":     "없음",
-		"CJ헬로모바일결합 (KT망 ONLY)": "없음",
+		"": "없음",
 	}
 	return item[c.Combination]
 }
