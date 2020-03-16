@@ -1,5 +1,6 @@
 package goods
 
+//Article 구조체는 통신사별 상품 및 세부 정보를 갖는 구조체이다.
 type Article struct {
 	Article string
 	Options map[string]string
@@ -20,6 +21,7 @@ func newCommpany() map[string]*CommCompany {
 	}
 }
 
+//CommCompany 구조체는 통신사에 대한 정보를 갖는 구조체이다.
 type CommCompany struct {
 	CompanyCode string
 	AreaCode    string

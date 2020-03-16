@@ -1,10 +1,11 @@
 package goods
 
 import (
-	"github.com/mobile-command-center/Hydralisk/client"
-	"github.com/sirupsen/logrus"
 	"strconv"
 	"strings"
+
+	"github.com/mobile-command-center/Hydralisk/client"
+	"github.com/sirupsen/logrus"
 )
 
 //AdminInformation 구조체는 고객등록시 필요한 관리자 ID이다. Cookie로 받아올 수 있다.
@@ -31,6 +32,7 @@ type CustomerInformation struct {
 	RegistrationCourse         string `form:"g_code_course_idx"` //접수 경로
 }
 
+//Convert 함수는 웹페이지에서 얻은 폼데이터를 시스템에 맞는 구조체의 데이터로 변환해주는 함수이다.
 //1. 가입자명 -> 고객명
 //2. 휴대폰 번호 -> 핸드폰
 //3. 통신사 -> 전화 내용에 삽입(삽입 불가)
@@ -65,6 +67,7 @@ type AccountTransfer struct {
 	RegistrationNumber2 string `form:"c_bank_jumin2"` //예금주 주민번호 뒷자리
 }
 
+//Convert 함수는 계좌이체 정보에 대해서 변환을 하는 함수이다.
 func (a *AccountTransfer) Convert(c client.Client) {
 	if c.BankCd == "0" {
 		a.Bank = c.BankCd
@@ -87,6 +90,7 @@ type CreditCard struct {
 	RegistrationNumber2 string `form:"c_card_jumin2"` //카드주 주민번호 뒷자리
 }
 
+//Convert 함수는 신용카드 정보에 대해서 변환하는 함수이다.
 func (credit *CreditCard) Convert(c client.Client) {
 	if c.CardCd == "0" {
 		credit.Company = c.CardCd
@@ -120,6 +124,7 @@ type PaymentInformation struct {
 	Summing         Summing         // 합산청구
 }
 
+//Convert 함수는 납부 정보에 대해서 변환하는 함수이다.
 func (p *PaymentInformation) Convert(c client.Client) {
 	p.Relationship = getRelationship("본인")
 	if c.BankCd != "0" {
@@ -141,6 +146,7 @@ type GiftAccount struct {
 	RegistrationNumber2 string `form:"g_sp_bank_jumin2"` //예금주 주민번호 뒷자리
 }
 
+//Convert 함수는 사은품 계좌 정보에 대해서 변환하는 함수이다.
 func (g *GiftAccount) Convert(c client.Client) {
 	if c.SpBankCode == "0" {
 		g.Bank = "0"
@@ -152,6 +158,7 @@ func (g *GiftAccount) Convert(c client.Client) {
 	g.OwenerName = c.SpBankHolder
 }
 
+//DummyItem 구조체는 시스템의 상품정보를 변환하기 위해 사용하는 임시 구조체이다.
 type DummyItem struct {
 	Item            string
 	Option          string
@@ -185,6 +192,7 @@ type FirstItem struct {
 	TopGiftPrice    string `form:"g_sp_price_top1"` //본사 사은품 가격
 }
 
+//Convert 함수는 첫번쩨 상품에 대해서 변환을 하는 함수이다.
 func (f *FirstItem) Convert(i interface{}) {
 	d := i.(*DummyItem)
 
@@ -220,6 +228,7 @@ type SecondItem struct {
 	TopGiftPrice    string `form:"g_sp_price_top2"`  //본사 사은품 가격
 }
 
+//Convert 함수는 두번쩨 상품에 대해서 변환을 하는 함수이다.
 func (s *SecondItem) Convert(i interface{}) {
 	d := i.(*DummyItem)
 
@@ -255,6 +264,7 @@ type ThirdItem struct {
 	TopGiftPrice    string `form:"g_sp_price_top3"`  //본사 사은품 가격
 }
 
+//Convert 함수는 세번쩨 상품에 대해서 변환을 하는 함수이다.
 func (t *ThirdItem) Convert(i interface{}) {
 	d := i.(*DummyItem)
 
@@ -283,6 +293,7 @@ type ItemInformation struct {
 	ThirdItem  *ThirdItem
 }
 
+//Convert 함수는 상품들에 대해서 변환을 하는 함수이다.
 func (i *ItemInformation) Convert(c client.Client) {
 	company := newCommpany()
 	commCompany := company[replaceCompanyName(c.Vendor)]
@@ -319,6 +330,7 @@ type NumberMoving struct {
 	Memo                string `form:"g_move_memo"`    // 메모
 }
 
+//Convert 함수는 번호이동 정보에 대해서 변환을 하는 함수이다.
 func (n *NumberMoving) Convert(c client.Client) {
 	if c.TelephoneCarrierMoveChk == "true" {
 		n.Telephone = c.MoveTel1
@@ -336,6 +348,8 @@ type Comments struct {
 	Comments string `form:"g_bigo"` // 기타 내용
 }
 
+//Convert 함수는 특이사항에 대해서 변환을 하는 함수이다.
+//렌탈일 경우 특이사항란에 상품정보를 기입한다.
 func (comment *Comments) Convert(c client.Client) {
 	var s string
 	if c.Vendor == "rental" {
@@ -370,6 +384,7 @@ type Membership struct {
 	Attachments         Attachments
 }
 
+//Convert 함수는 가입신청에 대해서 변환을 하는 함수이다.
 func (m *Membership) Convert(c client.Client) error {
 	m.CustomerInformation.Convert(c)
 	m.PaymentInformation.Convert(c)

@@ -4,6 +4,11 @@ import (
 	"bytes"
 	"context"
 	"encoding/base64"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"os"
+
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/gorilla/schema"
@@ -11,26 +16,23 @@ import (
 	"github.com/mobile-command-center/Hydralisk/goods"
 	"github.com/mobile-command-center/Hydralisk/user"
 	"github.com/sirupsen/logrus"
-	"io/ioutil"
-	"net/http"
-	"net/url"
-	"os"
 )
 
+//Config 구조체는 Ajung 툴 접속 정보를 갖는 구조체
 type Config struct {
-	LoginUrl    string `json:"login"`    //Login URL
-	LogoutUrl   string `json:"logout"`   //Logout URL
-	RegisterUrl string `json:"register"` //Register URL
-	Id          string `json:"id"`       //Admin id
+	LoginURL    string `json:"login"`    //Login URL
+	LogoutURL   string `json:"logout"`   //Logout URL
+	RegisterURL string `json:"register"` //Register URL
+	ID          string `json:"id"`       //Admin id
 	Password    string `json:"password"` //Admin password
 }
 
 var (
 	c = &Config{
-		LoginUrl:    os.Getenv("LOGIN"),
-		LogoutUrl:   os.Getenv("LOGOUT"),
-		RegisterUrl: os.Getenv("REGISTRATION"),
-		Id:          os.Getenv("ID"),
+		LoginURL:    os.Getenv("LOGIN"),
+		LogoutURL:   os.Getenv("LOGOUT"),
+		RegisterURL: os.Getenv("REGISTRATION"),
+		ID:          os.Getenv("ID"),
 		Password:    os.Getenv("PASSWORD"),
 	}
 	membership = emptyMembership()
@@ -76,6 +78,7 @@ func emptyMembership() *goods.Membership {
 	}
 }
 
+//Handler 는 Aws lambda 핸들러이다.
 func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	resp := events.APIGatewayProxyResponse{Headers: make(map[string]string)}
 	resp.Headers["Access-Control-Allow-Origin"] = "*"
@@ -141,7 +144,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return resp, err
 	}
 
-	u := user.NewUser(c.Id, c.Password)
+	u := user.NewUser(c.ID, c.Password)
 
 	formValue := url.Values{}
 
@@ -156,15 +159,15 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 
 	log.Infof("%+v\n", membership)
 
-	_, err = u.Login(c.LoginUrl)
+	_, err = u.Login(c.LoginURL)
 	if err != nil {
 		resp.StatusCode = http.StatusUnauthorized
 		resp.Body = "Login failed"
 		return resp, err
 	}
-	defer u.Logout(c.LogoutUrl)
+	defer u.Logout(c.LogoutURL)
 
-	_, err = u.Register(c.RegisterUrl, formValue)
+	_, err = u.Register(c.RegisterURL, formValue)
 	if err != nil {
 		resp.StatusCode = 500
 		resp.Body = "Data sending failed"
@@ -177,8 +180,8 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 
 func init() {
 	log.SetLevel(logrus.DebugLevel)
-	membership.AdminInformation.Yuchi = c.Id
-	membership.AdminInformation.Jupsu = c.Id
+	membership.AdminInformation.Yuchi = c.ID
+	membership.AdminInformation.Jupsu = c.ID
 }
 
 func main() {

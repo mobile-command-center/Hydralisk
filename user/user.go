@@ -21,6 +21,7 @@ func NewUser(id string, password string) *User {
 	}
 }
 
+//User 구조체는 Ajung 시스템 접속 정보를 갖는 구조체이다.
 type User struct {
 	id       string       //관리자 ID
 	password string       //관리자 Password
@@ -63,9 +64,9 @@ func (u *User) Logout(logout string) (int, error) {
 }
 
 //setCookie 함수는 고객 등록시 필요한 쿠키정보를 설정하는 함수이다.
-func (u *User) setCookie(rawUrl string, req *http.Request) {
-	parsedUrl, _ := url.Parse(rawUrl)
-	for _, cookie := range u.client.Jar.Cookies(parsedUrl) {
+func (u *User) setCookie(rawURL string, req *http.Request) {
+	parsedURL, _ := url.Parse(rawURL)
+	for _, cookie := range u.client.Jar.Cookies(parsedURL) {
 		req.AddCookie(&http.Cookie{
 			Name:  cookie.Name,
 			Value: cookie.Value,

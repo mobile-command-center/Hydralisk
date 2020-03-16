@@ -1,5 +1,6 @@
 package client
 
+//Client 구조체는 Ajung 가입페이지에서 입력된 폼 데이터를 관리하는 구조체이다.
 type Client struct {
 	Vendor                  string   `json:"vendor" form:"vendor"`                                         //통신사
 	TelephoneCarrierMoveChk string   `json:"telephone_carrier_move_chk" form:"telephone_carrier_move_chk"` // 번호이동?

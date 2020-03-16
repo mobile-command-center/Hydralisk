@@ -3,8 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/gorilla/schema"
-	"github.com/mobile-command-center/Hydralisk/client"
 	"io"
 	"io/ioutil"
 	"log"
@@ -13,6 +11,9 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+
+	"github.com/gorilla/schema"
+	"github.com/mobile-command-center/Hydralisk/client"
 )
 
 type Config struct {

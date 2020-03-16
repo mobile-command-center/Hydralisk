@@ -2,8 +2,9 @@ package goods
 
 import (
 	"fmt"
-	"github.com/mobile-command-center/Hydralisk/client"
 	"log"
+
+	"github.com/mobile-command-center/Hydralisk/client"
 )
 
 func skbParser(i *ItemInformation, c client.Client, company *CommCompany) int {

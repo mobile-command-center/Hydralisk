@@ -2,11 +2,12 @@ package user
 
 import (
 	"bytes"
-	"golang.org/x/text/encoding/korean"
 	"io"
 	"mime/multipart"
 	"net/url"
 	"strings"
+
+	"golang.org/x/text/encoding/korean"
 )
 
 //makeMultiPart 함수는 POST 요청시 multipart 요청 데이터를 만드는 함수이다.

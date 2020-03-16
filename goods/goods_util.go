@@ -1,18 +1,22 @@
 package goods
 
 import (
-	"github.com/mobile-command-center/Hydralisk/client"
 	"reflect"
+
+	"github.com/mobile-command-center/Hydralisk/client"
 )
 
+//NewConverter 구조체는 FormData를 Membership로 변환하는 Converter을 리턴한다.
 func NewConverter(client client.Client) *Converter {
 	return &Converter{c: client}
 }
 
+//Converter 구조체는 FormData 정보를 Membership로 변환하는 구조체이다.
 type Converter struct {
 	c client.Client
 }
 
+//Convert 함수는 Membership구조체로 Client 데이터를 변환한다.
 func (c Converter) Convert(m *Membership) error {
 	return m.Convert(c.c)
 }
