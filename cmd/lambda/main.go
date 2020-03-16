@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/base64"
+	"html/template"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -28,7 +29,7 @@ type Config struct {
 }
 
 var (
-	c = &Config{
+	conf = &Config{
 		LoginURL:    os.Getenv("LOGIN"),
 		LogoutURL:   os.Getenv("LOGOUT"),
 		RegisterURL: os.Getenv("REGISTRATION"),
@@ -126,17 +127,19 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	decoder.SetAliasTag("form")
 	decoder.IgnoreUnknownKeys(true)
 
-	client := &client.Client{}
-	err = decoder.Decode(client, r.PostForm)
+	c := &client.Client{}
+	err = decoder.Decode(c, r.PostForm)
 	if err != nil {
 		resp.StatusCode = 500
 		resp.Body = "Post form decoding failed"
 		return resp, err
 	}
 
-	log.Infof("%+v\n", client)
+	t := template.New("Ajung Template")
+	t, err = t.Parse(client.RequestTempl)
+	err = t.Execute(log.Writer(), c)
 
-	converter := goods.NewConverter(*client)
+	converter := goods.NewConverter(*c)
 	err = converter.Convert(membership)
 	if err != nil {
 		resp.StatusCode = 500
@@ -144,7 +147,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return resp, err
 	}
 
-	u := user.NewUser(c.ID, c.Password)
+	u := user.NewUser(conf.ID, conf.Password)
 
 	formValue := url.Values{}
 
@@ -159,15 +162,15 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 
 	log.Infof("%+v\n", membership)
 
-	_, err = u.Login(c.LoginURL)
+	_, err = u.Login(conf.LoginURL)
 	if err != nil {
 		resp.StatusCode = http.StatusUnauthorized
 		resp.Body = "Login failed"
 		return resp, err
 	}
-	defer u.Logout(c.LogoutURL)
+	defer u.Logout(conf.LogoutURL)
 
-	_, err = u.Register(c.RegisterURL, formValue)
+	_, err = u.Register(conf.RegisterURL, formValue)
 	if err != nil {
 		resp.StatusCode = 500
 		resp.Body = "Data sending failed"
@@ -180,8 +183,8 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 
 func init() {
 	log.SetLevel(logrus.DebugLevel)
-	membership.AdminInformation.Yuchi = c.ID
-	membership.AdminInformation.Jupsu = c.ID
+	membership.AdminInformation.Yuchi = conf.ID
+	membership.AdminInformation.Jupsu = conf.ID
 }
 
 func main() {

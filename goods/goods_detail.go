@@ -462,7 +462,8 @@ func getSkylifeArticle() map[string]*Article {
 		"기존KT": &Article{
 			Article: "749",
 			Options: map[string]string{
-				"": "",
+				"기존KT사용": "1856",
+				"해당없음":   "1857",
 			},
 			Promise: map[string]string{
 				"3년약정": "98",
@@ -751,6 +752,21 @@ func getRentalArticle() map[string]*Article {
 			},
 			Service: map[string]string{
 				"": "",
+			},
+		},
+		"미기입": &Article{
+			Article: "761",
+			Options: map[string]string{
+				"미기입": "1855",
+			},
+			Promise: map[string]string{
+				"미기입": "132",
+			},
+			Sale: map[string]string{
+				"미기입": "339",
+			},
+			Service: map[string]string{
+				"미기입": "132",
 			},
 		},
 	}

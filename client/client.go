@@ -57,3 +57,55 @@ type Client struct {
 	RentalPromise           string   `json:"p_promise" form:"p_promise"`                                   //Rental 약정
 	KtUser                  string   `json:"p_kt_user" form:"p_kt_user"`                                   //Skylife 옵션 (기존KT사용)
 }
+
+const RequestTempl = `
+아정통신 관리 시스템 요청 데이타 원본
+통신사 : {{.Vendor}}
+가입자명 : {{.Name}}
+가입자 휴대폰 통신사 : {{.Tel2Type}}
+가입자 휴대폰 : {{.Tel21}}-{{.Tel22}}-{{.Tel23}}
+가입자 휴대폰 본인 여부 : {{.Auth}}
+상담 받은 연락처 : {{.Tel31}}-{{.Tel32}}-{{.Tel33}}
+비상 연락처 : {{.Tel11}}-{{.Tel12}}-{{.Tel13}}
+이메일 : {{.Emain11}}@{{.Email12}}
+우편번호 : {{.ZipCode1}}-{{.ZipCode2}}
+주소 : {{.Address1}} {{.Address2}}
+주민번호 : {{.Jumin1}}-{{.Jumin2}}
+납부 정보 : {{.PaymentMenthod}}
+은행번호 : {{.BankCd}}
+계좌번호 : {{.BankNo}}
+예금주 : {{.BankHolder}}
+카드 정보 : {{.CardCd}}
+카드 번호 : {{.CardNo}}
+카드 유효 기간(MM/YY) : {{.CardGigan2}}/{{.CardGigan1}}
+카드주명 : {{.CardHolder}}
+사은품(현금) 지급은행 번호 : {{.SpBankCode}}
+사은품(현금) 지급은행 계좌번호 : {{.SpBankAccount}}
+사은품(현금) 지급은행 예금주 : {{.SpBankHolder}
+사은품(상품권) 번호 : {{.SpGiftCardCode}}
+요청사항 : {{.Bigo}}
+상품정보(인터넷) : {{.BoardInternet}}
+상품정보(TV) : {{.BoardTv}}
+상품정보(TV추가설치) : {{.BoardTvAdd}}
+상품정보(전화) : {{.BoardTel}}
+상품정보(셋탑박스) : {{.BoardSettop}}
+상품정보(와이파이) : {{.BoardWifi}}
+상품정보(약정선택) : {{.CodePromise}}
+기존 통신사 : {{.MoveCompany}}
+기존 통신사 전화번호 : {{.MoveTel1}}
+번호이동 인증 : {{.MoveAuth}}
+번호이동 인증번호 : {{.MoveNo}}
+결합 : {{.Combination}}
+렌탈회사 정보
+{{range .RentalVendor}}
+	{{.}}
+{{end}}
+렌탈제품
+{{range .RentalProduct}}
+	{{.}}
+{{end}}
+렌탈제품 이름 : {{.RentalProductName}}
+렌탈제품 색상 : {{.RentalProductColor}}
+렌탈약정 : {{.RentalPromise}}
+Skylife 옵션 (기존KT사용) : {{.KtUser}}
+`
