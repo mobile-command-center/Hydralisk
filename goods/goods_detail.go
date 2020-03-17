@@ -427,9 +427,8 @@ func getSkylifeArticle() map[string]*Article {
 				"3년약정": "96",
 			},
 			Sale: map[string]string{
-				"없음":     "319",
-				"홈결합":    "337",
-				"기존KT사용": "338",
+				"없음":  "319",
+				"홈결합": "337",
 			},
 			Service: map[string]string{
 				"일반와이파이신청": "126",

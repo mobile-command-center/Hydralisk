@@ -1,6 +1,7 @@
 package user
 
 import (
+	"bytes"
 	"net/http"
 	"net/http/cookiejar"
 	"net/url"
@@ -76,8 +77,8 @@ func (u *User) setCookie(rawURL string, req *http.Request) {
 
 //Register 함수는 고객정보를 등록하는 함수이다.
 //ERP시스템에서는 multipart 타입으로 POST 요청해야 한다.
-func (u *User) Register(register string, v url.Values) (int, error) {
-	b, c := makeMultiPart(v)
+func (u *User) Register(register string, v url.Values, rawData bytes.Buffer) (int, error) {
+	b, c := makeMultiPart(v, rawData)
 	req, err := http.NewRequest(http.MethodPost, register, strings.NewReader(b))
 	if err != nil {
 		return http.StatusInternalServerError, err

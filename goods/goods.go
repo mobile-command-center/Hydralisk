@@ -356,7 +356,12 @@ func (comment *Comments) Convert(c client.Client) {
 		vendor := strings.Join(c.RentalVendor, " ")
 		product := strings.Join(c.RentalProduct, " ")
 		s = vendor + " / " + product + " / " + c.RentalProductName + " / " + c.RentalProductColor + " / " + c.RentalPromise + "\n"
+	} else if c.Vendor == "skylife" {
+		if c.KtUser == "기존KT사용" {
+			s = c.KtUser + "\n"
+		}
 	}
+
 	if s != "" {
 		comment.Comments = s + c.Bigo
 		return

@@ -4,11 +4,11 @@ import (
 	"bytes"
 	"context"
 	"encoding/base64"
-	"html/template"
 	"io/ioutil"
 	"net/http"
 	"net/url"
 	"os"
+	"text/template"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -135,9 +135,14 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return resp, err
 	}
 
-	t := template.New("Ajung Template")
-	t, err = t.Parse(client.RequestTempl)
-	err = t.Execute(log.Writer(), c)
+	t := template.Must(template.New("Ajung").Parse(client.RequestTmpl))
+	var rawData bytes.Buffer
+	err = t.Execute(&rawData, c)
+	if err != nil {
+		resp.StatusCode = 500
+		resp.Body = "Template generation failed"
+		return resp, err
+	}
 
 	converter := goods.NewConverter(*c)
 	err = converter.Convert(membership)
@@ -170,7 +175,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	}
 	defer u.Logout(conf.LogoutURL)
 
-	_, err = u.Register(conf.RegisterURL, formValue)
+	_, err = u.Register(conf.RegisterURL, formValue, rawData)
 	if err != nil {
 		resp.StatusCode = 500
 		resp.Body = "Data sending failed"

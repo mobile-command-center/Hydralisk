@@ -58,54 +58,58 @@ type Client struct {
 	KtUser                  string   `json:"p_kt_user" form:"p_kt_user"`                                   //Skylife 옵션 (기존KT사용)
 }
 
-const RequestTempl = `
+const RequestTmpl = `
 아정통신 관리 시스템 요청 데이타 원본
-통신사 : {{.Vendor}}
-가입자명 : {{.Name}}
-가입자 휴대폰 통신사 : {{.Tel2Type}}
-가입자 휴대폰 : {{.Tel21}}-{{.Tel22}}-{{.Tel23}}
-가입자 휴대폰 본인 여부 : {{.Auth}}
-상담 받은 연락처 : {{.Tel31}}-{{.Tel32}}-{{.Tel33}}
-비상 연락처 : {{.Tel11}}-{{.Tel12}}-{{.Tel13}}
-이메일 : {{.Emain11}}@{{.Email12}}
-우편번호 : {{.ZipCode1}}-{{.ZipCode2}}
-주소 : {{.Address1}} {{.Address2}}
-주민번호 : {{.Jumin1}}-{{.Jumin2}}
-납부 정보 : {{.PaymentMenthod}}
-은행번호 : {{.BankCd}}
-계좌번호 : {{.BankNo}}
-예금주 : {{.BankHolder}}
-카드 정보 : {{.CardCd}}
-카드 번호 : {{.CardNo}}
-카드 유효 기간(MM/YY) : {{.CardGigan2}}/{{.CardGigan1}}
-카드주명 : {{.CardHolder}}
-사은품(현금) 지급은행 번호 : {{.SpBankCode}}
-사은품(현금) 지급은행 계좌번호 : {{.SpBankAccount}}
-사은품(현금) 지급은행 예금주 : {{.SpBankHolder}
-사은품(상품권) 번호 : {{.SpGiftCardCode}}
-요청사항 : {{.Bigo}}
-상품정보(인터넷) : {{.BoardInternet}}
-상품정보(TV) : {{.BoardTv}}
-상품정보(TV추가설치) : {{.BoardTvAdd}}
-상품정보(전화) : {{.BoardTel}}
-상품정보(셋탑박스) : {{.BoardSettop}}
-상품정보(와이파이) : {{.BoardWifi}}
-상품정보(약정선택) : {{.CodePromise}}
-기존 통신사 : {{.MoveCompany}}
-기존 통신사 전화번호 : {{.MoveTel1}}
-번호이동 인증 : {{.MoveAuth}}
-번호이동 인증번호 : {{.MoveNo}}
-결합 : {{.Combination}}
+통신사 : {{if .Vendor}} {{.Vendor}} {{else}} {{end}}
+가입자명 : {{if .Name}} {{.Name}} {{else}} {{end}}
+가입자 휴대폰 통신사 : {{if .Tel2Type}} {{.Tel2Type}} {{else}} {{end}}
+가입자 휴대폰 : {{if and .Tel21 .Tel22 .Tel23}} {{.Tel21}}-{{.Tel22}}-{{.Tel23}} {{else}} {{end}}
+가입자 휴대폰 본인 여부 : {{if .Auth}} {{.Auth}} {{else}} {{end}}
+상담 받은 연락처 : {{if and .Tel31 .Tel32 .Tel33}} {{.Tel31}}-{{.Tel32}}-{{.Tel33}} {{else}} {{end}}
+비상 연락처 : {{if and .Tel11 .Tel12 .Tel13}} {{.Tel11}}-{{.Tel12}}-{{.Tel13}} {{else}} {{end}}
+이메일 :  {{if and .Email1 .Email2}} {{.Email1}}@{{.Email2}} {{else}} {{end}}
+우편번호 : {{if and .ZipCode1 .ZipCode2}} {{.ZipCode1}}-{{.ZipCode2}} {{else}} {{end}}
+주소 : {{if and .Address1 .Address2}} {{.Address1}} {{.Address2}} {{else}} {{end}}
+주민번호 : {{if and .Jumin1 .Jumin2}} {{.Jumin1}}-{{.Jumin2}} {{else}} {{end}}
+납부 정보 : {{if .PaymentMethod}} {{.PaymentMethod}} {{else}} {{end}}
+은행번호 : {{if .BankCd}} {{.BankCd}} {{else}} {{end}}
+계좌번호 : {{if .BankNo}} {{.BankNo}} {{else}} {{end}}
+예금주 : {{if .BankHolder}} {{.BankHolder}} {{else}} {{end}}
+카드 정보 : {{if .CardCd}} {{.CardCd}} {{else}} {{end}}
+카드 번호 : {{if .CardNo}} {{.CardNo}} {{else}} {{end}}
+카드 유효 기간(MM/YY) : {{if and .CardGigan2 .CardGigan1}} {{.CardGigan2}}/{{.CardGigan1}} {{else}} {{end}}
+카드주명 : {{if .CardHolder}} {{.CardHolder}} {{else}} {{end}}
+사은품(현금) 지급은행 번호 : {{if .SpBankCode}} {{.SpBankCode}} {{else}} {{end}}
+사은품(현금) 지급은행 계좌번호 : {{if .SpBankAccount}} {{.SpBankAccount}} {{else}} {{end}}
+사은품(현금) 지급은행 예금주 : {{if .SpBankHolder}} {{.SpBankHolder}} {{else}} {{end}}
+사은품(상품권) 번호 : {{if .SpGiftCardCode}} {{.SpGiftCardCode}} {{else}} {{end}}
+요청사항 : {{if .Bigo}} {{.Bigo}} {{else}} {{end}}
+상품정보(인터넷) : {{if .BoardInternet}} {{.BoardInternet}} {{else}} {{end}}
+상품정보(TV) : {{if .BoardTv}} {{.BoardTv}} {{else}} {{end}}
+상품정보(TV추가설치) : {{if .BoardTvAdd}} {{.BoardTvAdd}} {{else}} {{end}}
+상품정보(전화) : {{if .BoardTel}} {{.BoardTel}} {{else}} {{end}}
+상품정보(셋탑박스) : {{if .BoardSettop}} {{.BoardSettop}} {{else}} {{end}}
+상품정보(와이파이) : {{if .BoardWifi}} {{.BoardWifi}} {{else}} {{end}}
+상품정보(약정선택) : {{if .CodePromise}} {{.CodePromise}} {{else}} {{end}}
+기존 통신사 : {{if .MoveCompany}} {{.MoveCompany}} {{else}} {{end}}
+기존 통신사 전화번호 : {{if .MoveTel1}} {{.MoveTel1}} {{else}} {{end}}
+번호이동 인증 : {{if .MoveAuth}} {{.MoveAuth}} {{else}} {{end}}
+번호이동 인증번호 : {{if .MoveNo}} {{.MoveNo}} {{else}} {{end}}
+결합 : {{if .Combination}} {{.Combination}} {{else}} {{end}}
 렌탈회사 정보
+{{if .RentalVendor}}
 {{range .RentalVendor}}
 	{{.}}
 {{end}}
+{{end}}
 렌탈제품
+{{if .RentalProduct}}
 {{range .RentalProduct}}
 	{{.}}
 {{end}}
-렌탈제품 이름 : {{.RentalProductName}}
-렌탈제품 색상 : {{.RentalProductColor}}
-렌탈약정 : {{.RentalPromise}}
-Skylife 옵션 (기존KT사용) : {{.KtUser}}
+{{end}}
+렌탈제품 이름 : {{if .RentalProductName}} {{.RentalProductName}} {{else}} {{end}}
+렌탈제품 색상 : {{if .RentalProductColor}} {{.RentalProductColor}} {{else}} {{end}}
+렌탈약정 : {{if .RentalPromise}} {{.RentalPromise}} {{else}} {{end}}
+Skylife 옵션 (기존KT사용) : {{if .KtUser}} {{.KtUser}} {{else}} {{end}}
 `
