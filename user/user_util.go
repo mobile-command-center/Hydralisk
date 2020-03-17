@@ -2,8 +2,10 @@ package user
 
 import (
 	"bytes"
+	"fmt"
 	"io"
 	"mime/multipart"
+	"net/textproto"
 	"net/url"
 	"strings"
 
@@ -19,13 +21,10 @@ func makeMultiPart(v url.Values, rawData bytes.Buffer) (string, string) {
 	for key, r := range v {
 		var fw io.Writer
 		if key == "g_file1" {
-			part, _ := w.CreateFormFile(key, "origin.txt")
-			/*
-				h := make(textproto.MIMEHeader)
-				h.Set("Content-Disposition", fmt.Sprintf(`form-data; name="%s"; filename="%s"`,	key, "origin.txt"))
-				h.Set("Content-Type", "text/plain")
-				part, _ := w.CreatePart(h)
-			*/
+			h := make(textproto.MIMEHeader)
+			h.Set("Content-Disposition", fmt.Sprintf(`form-data; name="%s"; filename="%s"`, key, "origin.txt"))
+			h.Set("Content-Type", "text/plain")
+			part, _ := w.CreatePart(h)
 			part.Write(rawData.Bytes())
 		} else {
 			fw, _ = w.CreateFormField(key)
