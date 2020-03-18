@@ -4,28 +4,30 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
+	"net/url"
+	"text/template"
+
 	"github.com/gorilla/schema"
 	"github.com/mobile-command-center/Hydralisk/client"
 	"github.com/mobile-command-center/Hydralisk/goods"
 	"github.com/mobile-command-center/Hydralisk/user"
 	"github.com/sirupsen/logrus"
-	"io/ioutil"
-	"net/http"
-	"net/url"
 )
 
 //Config 함수는 ERP 서버 정보를 갖는 구조체이다.
 type Config struct {
 	Endpoint    string `json:"endpoint"` //ERP URL endpoint
-	LoginUrl    string `json:"login"`    //Login URL
-	LogoutUrl   string `json:"logout"`   //Logout URL
-	RegisterUrl string `json:"register"` //Register URL
-	Id          string `json:"id"`       //Admin id
+	LoginURL    string `json:"login"`    //Login URL
+	LogoutURL   string `json:"logout"`   //Logout URL
+	RegisterURL string `json:"register"` //Register URL
+	ID          string `json:"id"`       //Admin id
 	Password    string `json:"password"` //Admin password
 }
 
 var (
-	c          = &Config{}
+	conf       = &Config{}
 	membership = &goods.Membership{
 		PaymentInformation: goods.PaymentInformation{
 			AccountTransfer: goods.AccountTransfer{
@@ -73,18 +75,18 @@ func registrationHandler(w http.ResponseWriter, r *http.Request) {
 	log.Debug(string(reqBody))
 	decoder := json.NewDecoder(bytes.NewBuffer(reqBody))
 
-	client := &client.Client{}
-	if err := decoder.Decode(client); err != nil {
+	c := &client.Client{}
+	if err := decoder.Decode(c); err != nil {
 		fmt.Fprintln(w, http.StatusBadRequest)
 	}
 
-	converter := goods.NewConverter(*client)
+	converter := goods.NewConverter(*c)
 
 	if err := converter.Convert(membership); err != nil {
 		fmt.Fprintln(w, http.StatusInternalServerError)
 	}
 
-	u := user.NewUser(c.Id, c.Password)
+	u := user.NewUser(conf.ID, conf.Password)
 	formValue := url.Values{}
 
 	encoder := schema.NewEncoder()
@@ -93,14 +95,18 @@ func registrationHandler(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, http.StatusInternalServerError)
 	}
 
-	status, err := u.Login(c.LoginUrl)
+	t := template.Must(template.New("Ajung").Parse(client.RequestTmpl))
+	var rawData bytes.Buffer
+	err = t.Execute(&rawData, c)
+
+	status, err := u.Login(conf.LoginURL)
 	if err != nil {
 		fmt.Fprintln(w, status)
 	}
-	defer u.Logout(c.LogoutUrl)
+	defer u.Logout(conf.LogoutURL)
 
 	log.Debug(formValue.Encode())
-	status, err = u.Register(c.RegisterUrl, formValue)
+	status, err = u.Register(conf.RegisterURL, formValue, rawData)
 	if err != nil {
 		fmt.Fprintln(w, status)
 	}
@@ -110,18 +116,18 @@ func registrationHandler(w http.ResponseWriter, r *http.Request) {
 func init() {
 	log.Info("Hydralisk ERP server starting...")
 	log.Info("Loading access information...")
-	conf, err := ioutil.ReadFile("info.json")
+	confFile, err := ioutil.ReadFile("info.json")
 	if err != nil {
 		panic(err)
 	}
 
-	if err = json.Unmarshal(conf, c); err != nil {
+	if err = json.Unmarshal(confFile, conf); err != nil {
 		panic(err)
 	}
 
 	log.SetLevel(logrus.DebugLevel)
-	membership.AdminInformation.Yuchi = c.Id
-	membership.AdminInformation.Jupsu = c.Id
+	membership.AdminInformation.Yuchi = conf.ID
+	membership.AdminInformation.Jupsu = conf.ID
 
 	log.Info("Initialization success...")
 }
