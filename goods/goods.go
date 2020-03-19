@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/mobile-command-center/Hydralisk/client"
-	"github.com/sirupsen/logrus"
 )
 
 //AdminInformation 구조체는 고객등록시 필요한 관리자 ID이다. Cookie로 받아올 수 있다.
@@ -301,21 +300,10 @@ func (i *ItemInformation) Convert(c client.Client) {
 	i.Company = commCompany.CompanyCode
 	i.Location = commCompany.AreaCode
 
-	var count int
-	if c.Vendor != "rental" {
-		parser := newServiceParser()
-		count = parser[c.Vendor](i, c, commCompany)
-	} else {
-		count = 1
-	}
+	parser := newServiceParser()
+	count := parser[c.Vendor](i, c, commCompany)
 
 	i.GoodsCount = strconv.Itoa(count)
-
-	log := logrus.New()
-	log.SetLevel(logrus.InfoLevel)
-	log.Printf("First %+v\n", i.FirstItem)
-	log.Printf("Second %+v\n", i.SecondItem)
-	log.Printf("Third %+v\n", i.ThirdItem)
 }
 
 //NumberMoving 구조체는 번호이동 정보를 저장하는 구조체이다.

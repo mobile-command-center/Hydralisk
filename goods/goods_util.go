@@ -104,3 +104,43 @@ func convert(i *ItemInformation, pos int, d interface{}) {
 	in := []reflect.Value{reflect.ValueOf(d)}
 	method.Call(in)
 }
+
+//EmptyMembership 함수는 빈 Membership 구조체를 리턴한다.
+func EmptyMembership() *Membership {
+	return &Membership{
+		PaymentInformation: PaymentInformation{
+			AccountTransfer: AccountTransfer{
+				Bank: "0",
+			},
+			CreditCard: CreditCard{
+				Company: "0",
+			},
+		},
+		ItemInformation: ItemInformation{
+			FirstItem: &FirstItem{
+				Item:      "0",
+				Option:    "0",
+				Promise:   "0",
+				Sale:      "0",
+				Service:   "0",
+				LineCount: "1",
+			},
+			SecondItem: &SecondItem{
+				Item:      "0",
+				Option:    "0",
+				Promise:   "0",
+				Sale:      "0",
+				Service:   "0",
+				LineCount: "1",
+			},
+			ThirdItem: &ThirdItem{
+				Item:      "0",
+				Option:    "0",
+				Promise:   "0",
+				Sale:      "0",
+				Service:   "0",
+				LineCount: "1",
+			},
+		},
+	}
+}

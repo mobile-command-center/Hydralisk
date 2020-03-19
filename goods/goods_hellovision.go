@@ -7,7 +7,7 @@ import (
 )
 
 func cjParser(i *ItemInformation, c client.Client, company *CommCompany) int {
-	fmt.Println("CJ PARSER")
+	fmt.Println("HELLOVISION PARSER")
 	fieldPosition := 3
 
 	if cjInternet(c) != "" {
