@@ -14,6 +14,18 @@ const (
 	RegisterLevel
 )
 
+type UserData struct {
+	Data     bytes.Buffer
+	Filename string
+}
+
+func NewUserData(data bytes.Buffer, filename string) *UserData {
+	return &UserData{
+		Data:     data,
+		Filename: filename,
+	}
+}
+
 //NewUser 함수는 User 계정 정보를 가지고 User 객체를 만들어서 반환하는 함수이다.
 func NewUser(id string, password string) *User {
 	return &User{
@@ -28,7 +40,7 @@ func NewUser(id string, password string) *User {
 	}
 }
 
-func (u *User) Do(v url.Values, data bytes.Buffer) (status int, err error) {
+func (u *User) Do(v url.Values, data UserData) (status int, err error) {
 	status = http.StatusOK
 	err = nil
 
@@ -109,8 +121,8 @@ func (u *User) setCookie(rawURL string, req *http.Request) {
 
 //Register 함수는 고객정보를 등록하는 함수이다.
 //ERP시스템에서는 multipart 타입으로 POST 요청해야 한다.
-func (u *User) Register(registerURL string, v url.Values, rawData bytes.Buffer) (int, error) {
-	b, c := makeMultiPart(v, rawData)
+func (u *User) Register(registerURL string, v url.Values, user UserData) (int, error) {
+	b, c := makeMultiPart(v, user)
 	req, err := http.NewRequest(http.MethodPost, registerURL, strings.NewReader(b))
 	if err != nil {
 		return http.StatusInternalServerError, err

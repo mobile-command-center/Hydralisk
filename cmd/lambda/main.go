@@ -177,7 +177,8 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	})
 
 	var status int
-	status, err = u.Do(v, data)
+	userData := user.NewUserData(data, membership.CustomerInformation.Name)
+	status, err = u.Do(v, *userData)
 	if err != nil {
 		resp.StatusCode = status
 		resp.Body = mail.ErpSystemError + Contect
@@ -191,7 +192,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		membership = goods.EmptyMembership()
 	}()
 
-	m := mail.NewMail(RegistrationReport, conf.Recipient)
+	m := mail.NewMail(RegistrationReport+" "+c.Name+" 고객님", conf.Recipient)
 	m.SetBody(data.String())
 	mail.Send(m)
 	return resp, nil
