@@ -15,16 +15,18 @@ import (
 	"github.com/gorilla/schema"
 	"github.com/mobile-command-center/Hydralisk/client"
 	"github.com/mobile-command-center/Hydralisk/goods"
+	"github.com/mobile-command-center/Hydralisk/mail"
 	"github.com/mobile-command-center/Hydralisk/user"
 )
 
 //Config 구조체는 Ajung 툴 접속 정보를 갖는 구조체
 type Config struct {
-	LoginURL    string `json:"login"`    //Login URL
-	LogoutURL   string `json:"logout"`   //Logout URL
-	RegisterURL string `json:"register"` //Register URL
-	ID          string `json:"id"`       //Admin id
-	Password    string `json:"password"` //Admin password
+	LoginURL    string `json:"login"`     //Login URL
+	LogoutURL   string `json:"logout"`    //Logout URL
+	RegisterURL string `json:"register"`  //Register URL
+	ID          string `json:"id"`        //Admin id
+	Password    string `json:"password"`  //Admin password
+	Recipient   string `json:"recipient"` //Email recipient
 }
 
 var (
@@ -34,16 +36,27 @@ var (
 		RegisterURL: os.Getenv("REGISTRATION"),
 		ID:          os.Getenv("ID"),
 		Password:    os.Getenv("PASSWORD"),
+		Recipient:   os.Getenv("RECIPIENT"),
 	}
 	membership = goods.EmptyMembership()
 )
 
+const (
+	BugReport          = "아정통신 버그리포트"
+	RegistrationReport = "아정통신 가입신청서"
+	Contect            = "관리자에게 연락바랍니다.\n"
+)
+
+//NewEncoder 함수는 웹페이지에서 전송되는 데이터를 구조체로
+//변환하는 엔코더를 리턴한다.
 func NewEncoder() *schema.Encoder {
 	encoder := schema.NewEncoder()
 	encoder.SetAliasTag("form")
 	return encoder
 }
 
+//NewDecoder 함수는 웹페이지에서 전송된 데이터 구조체를 FormValue로 변환하는
+//디코더를 리턴한다.
 func NewDecoder() *schema.Decoder {
 	decoder := schema.NewDecoder()
 	decoder.SetAliasTag("form")
@@ -51,6 +64,7 @@ func NewDecoder() *schema.Decoder {
 	return decoder
 }
 
+//MakeResponse 함수는 APIGatewayProxyResponse 구조체를 리턴한다.
 func MakeResponse() events.APIGatewayProxyResponse {
 	resp := events.APIGatewayProxyResponse{Headers: make(map[string]string)}
 	resp.Headers["Access-Control-Allow-Origin"] = "*"
@@ -62,6 +76,7 @@ func MakeResponse() events.APIGatewayProxyResponse {
 	return resp
 }
 
+//MakeRequest 함수는 APIGatewayProxyRequest 구조체를 리턴한다.
 func MakeRequest(req events.APIGatewayProxyRequest) (r http.Request, err error) {
 	r = http.Request{}
 	r.Header = make(map[string][]string)
@@ -88,7 +103,10 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	req, err := MakeRequest(request)
 	if err != nil {
 		resp.StatusCode = http.StatusForbidden
-		resp.Body = "Could not read request body"
+		resp.Body = mail.RequestBodyError + Contect
+		m := mail.NewMail(BugReport, conf.Recipient)
+		m.SetBody(mail.RequestBodyError + mail.CommonInfo + req.PostForm.Encode())
+		mail.Send(m)
 		return resp, err
 	}
 
@@ -96,7 +114,10 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	err = req.ParseMultipartForm(maxMemory)
 	if err != nil {
 		resp.StatusCode = http.StatusInternalServerError
-		resp.Body = "Parsing multi part form failed"
+		resp.Body = mail.MultiPartParsingError + Contect
+		m := mail.NewMail(BugReport, conf.Recipient)
+		m.SetBody(mail.MultiPartParsingError + mail.CommonInfo + req.PostForm.Encode())
+		mail.Send(m)
 		return resp, err
 	}
 
@@ -105,7 +126,10 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	err = decoder.Decode(c, req.PostForm)
 	if err != nil {
 		resp.StatusCode = http.StatusInternalServerError
-		resp.Body = "Post form decoding failed"
+		resp.Body = mail.PostFormDecodingError + Contect
+		m := mail.NewMail(BugReport, conf.Recipient)
+		m.SetBody(mail.PostFormDecodingError + mail.CommonInfo + req.PostForm.Encode())
+		mail.Send(m)
 		return resp, err
 	}
 
@@ -114,7 +138,10 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	err = t.Execute(&data, c)
 	if err != nil {
 		resp.StatusCode = http.StatusInternalServerError
-		resp.Body = "Template generation failed"
+		resp.Body = mail.TemplateGenerationError + Contect
+		m := mail.NewMail(BugReport, conf.Recipient)
+		m.SetBody(mail.TemplateGenerationError + mail.CommonInfo + req.PostForm.Encode())
+		mail.Send(m)
 		return resp, err
 	}
 
@@ -122,7 +149,10 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	err = converter.Convert(membership)
 	if err != nil {
 		resp.StatusCode = http.StatusInternalServerError
-		resp.Body = "Item converting failed"
+		resp.Body = mail.ItemConvertingError + Contect
+		m := mail.NewMail(BugReport, conf.Recipient)
+		m.SetBody(mail.ItemConvertingError + mail.CommonInfo + req.PostForm.Encode())
+		mail.Send(m)
 		return resp, err
 	}
 
@@ -132,7 +162,10 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	err = encoder.Encode(membership, v)
 	if err != nil {
 		resp.StatusCode = http.StatusInternalServerError
-		resp.Body = "Form value for ERP encoding failed"
+		resp.Body = mail.ErpDataEncodingError + Contect
+		m := mail.NewMail(BugReport, conf.Recipient)
+		m.SetBody(mail.ErpDataEncodingError + mail.CommonInfo + req.PostForm.Encode())
+		mail.Send(m)
 		return resp, err
 	}
 
@@ -147,13 +180,20 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	status, err = u.Do(v, data)
 	if err != nil {
 		resp.StatusCode = status
-		resp.Body = "ERP system internal error"
+		resp.Body = mail.ErpSystemError + Contect
+		m := mail.NewMail(BugReport, conf.Recipient)
+		m.SetBody(mail.ErpSystemError + mail.CommonInfo + req.PostForm.Encode())
+		mail.Send(m)
+		return resp, err
 	}
 
 	defer func() {
 		membership = goods.EmptyMembership()
 	}()
 
+	m := mail.NewMail(RegistrationReport, conf.Recipient)
+	m.SetBody(data.String())
+	mail.Send(m)
 	return resp, nil
 }
 
