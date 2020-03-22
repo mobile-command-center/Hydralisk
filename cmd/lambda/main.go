@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/base64"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -120,6 +121,8 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		mail.Send(m)
 		return resp, err
 	}
+
+	log.Printf("Data from web\n%+v\n", req.PostForm.Encode())
 
 	c := &client.Client{}
 	decoder := NewDecoder()

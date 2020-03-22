@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"fmt"
 	"io"
-	"log"
 	"mime/multipart"
 	"net/textproto"
 	"net/url"
@@ -45,8 +44,5 @@ func makeMultiPart(v url.Values, user UserData) (string, string) {
 		}
 	}
 	w.Close()
-
-	log.Printf("requested data\n%+v\n", b.String())
-
 	return b.String(), w.FormDataContentType()
 }
