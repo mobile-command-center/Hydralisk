@@ -28,7 +28,7 @@ func newRentalEmpty(c client.Client, company *CommCompany) *DummyItem {
 		GiftName:        "",
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "",
+		GiftPaymentType: "E",
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",

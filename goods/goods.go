@@ -1,6 +1,7 @@
 package goods
 
 import (
+	"log"
 	"strconv"
 	"strings"
 
@@ -304,6 +305,8 @@ func (i *ItemInformation) Convert(c client.Client) {
 	count := parser[c.Vendor](i, c, commCompany)
 
 	i.GoodsCount = strconv.Itoa(count)
+
+	log.Printf("ItemInformation\n%+v\nFitstItem\n%+v\nSecondItem\n%+v\nThirdItem\n%+v\n", i, i.FirstItem, i.SecondItem, i.ThirdItem)
 }
 
 //NumberMoving 구조체는 번호이동 정보를 저장하는 구조체이다.

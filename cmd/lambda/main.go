@@ -122,7 +122,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return resp, err
 	}
 
-	log.Printf("Data from web\n%+v\n", req.PostForm.Encode())
+	log.Printf("Data from web\n%+v\n", req.Body)
 
 	c := &client.Client{}
 	decoder := NewDecoder()
