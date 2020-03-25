@@ -43,8 +43,8 @@ func getKtArticle() map[string]*Article {
 			Article: "730",
 			Options: map[string]string{
 				"100M": "1668",
-				"500M": "1669",
-				"1G":   "1670",
+				"500M": "1844",
+				"1G":   "1845",
 			},
 			Promise: map[string]string{
 				"3년약정": "41",
@@ -91,11 +91,11 @@ func getKtArticle() map[string]*Article {
 				"070번호이동": "1712",
 				"070신규":   "1713",
 			},
-			Sale: map[string]string{
-				"": "",
-			},
 			Promise: map[string]string{
 				"3년약정": "79",
+			},
+			Sale: map[string]string{
+				"없음": "341",
 			},
 			Service: map[string]string{
 				"없음": "68",
@@ -227,7 +227,7 @@ func getSktArticle() map[string]*Article {
 				"3년약정": "88",
 			},
 			Sale: map[string]string{
-				"": "",
+				"없음": "340",
 			},
 			Service: map[string]string{
 				"없음": "79",
@@ -302,20 +302,19 @@ func getLguArticle() map[string]*Article {
 				"3년약정": "61",
 			},
 			Sale: map[string]string{
-				"없음":    "287",
-				"★패밀리★": "328",
+				"없음": "287",
 			},
 			Service: map[string]string{
 				"없음": "76",
 			},
 		},
-		"TV": &Article{
+		"IPTV": &Article{
 			Article: "86",
 			Options: map[string]string{
 				"베이직(185CH)":           "141",
 				"프리미엄(224CH)":          "142",
 				"프리미엄 넷플릭스 HD(224CH)":  "1728",
-				"프리미엄 넷플릭스 UHD(224CH)": "1842",
+				"프리미엄 넷플릭스 UHD(224CH)": "1854",
 			},
 			Promise: map[string]string{
 				"3년약정": "64",
@@ -369,16 +368,14 @@ func getLgHelloVisionArticle() map[string]*Article {
 		"TV": &Article{
 			Article: "745",
 			Options: map[string]string{
-				"이코노미(105CH)": "1732",
-				"베이직(185CH)":  "1733",
-				"프리미엄(213CH)": "1734",
+				"베이직 UHD":  "1852",
+				"프리미엄 UHD": "1853",
 			},
 			Promise: map[string]string{
 				"3년약정": "94",
 			},
 			Sale: map[string]string{
-				"UHD셋탑": "314",
-				"HD셋탑":  "316",
+				"없음": "314",
 			},
 			Service: map[string]string{
 				"베이직HD 1대더추가설치": "129",
@@ -458,22 +455,6 @@ func getSkylifeArticle() map[string]*Article {
 				"총4대설치": "125",
 			},
 		},
-		"기존KT": &Article{
-			Article: "749",
-			Options: map[string]string{
-				"기존KT사용": "1856",
-				"해당없음":   "1857",
-			},
-			Promise: map[string]string{
-				"3년약정": "98",
-			},
-			Sale: map[string]string{
-				"없음": "323",
-			},
-			Service: map[string]string{
-				"없음": "100",
-			},
-		},
 	}
 }
 
@@ -488,271 +469,6 @@ func newRental() *CommCompany {
 
 func getRentalArticle() map[string]*Article {
 	return map[string]*Article{
-		"SK매직": &Article{
-			Article: "750",
-			Options: map[string]string{
-				"냉온정수기":  "1747",
-				"얼음정수기":  "1748",
-				"공기청정기":  "1749",
-				"비데":     "1750",
-				"주방가전용품": "1751",
-				"전기레인지":  "1752",
-				"의류건조기":  "1753",
-				"안마의자":   "1754",
-				"제빙기":    "1825",
-			},
-			Promise: map[string]string{
-				"3년약정": "99",
-				"4년약정": "100",
-				"5년약정": "101",
-			},
-			Sale: map[string]string{
-				"": "",
-			},
-			Service: map[string]string{
-				"": "",
-			},
-		},
-		"청호나이스": &Article{
-			Article: "751",
-			Options: map[string]string{
-				"커피정수기":  "1755",
-				"얼음정수기":  "1756",
-				"냉온정수기":  "1757",
-				"공기청정기":  "1758",
-				"비데":     "1759",
-				"주방가전용품": "1760",
-				"연수기":    "1761",
-				"제빙기":    "1829",
-			},
-			Promise: map[string]string{
-				"3년약정": "102",
-				"4년약정": "103",
-				"5년약정": "104",
-			},
-			Sale: map[string]string{
-				"": "",
-			},
-			Service: map[string]string{
-				"": "",
-			},
-		},
-		"LG전자": &Article{
-			Article: "752",
-			Options: map[string]string{
-				"냉온정수기":      "1762",
-				"공기청정기":      "1763",
-				"주방가전용품":     "1764",
-				"의류건조기":      "1765",
-				"안마의자":       "1766",
-				"전기레인지":      "1767",
-				"의류관리기":      "1768",
-				"홈브루(맥주제조기)": "1826",
-				"식기세척기":      "1827",
-			},
-			Promise: map[string]string{
-				"3년약정": "105",
-				"4년약정": "106",
-				"5년약정": "107",
-			},
-			Sale: map[string]string{
-				"": "",
-			},
-			Service: map[string]string{
-				"": "",
-			},
-		},
-		"쿠쿠": &Article{
-			Article: "753",
-			Options: map[string]string{
-				"펫용품":      "1769",
-				"얼음정수기":    "1770",
-				"냉온정수기":    "1771",
-				"공기청정기":    "1772",
-				"비데":       "1773",
-				"연수기":      "1774",
-				"안마의자":     "1775",
-				"전기레인지":    "1776",
-				"매트리스&프레임": "1777",
-			},
-			Promise: map[string]string{
-				"3년약정": "108",
-				"4년약정": "109",
-				"5년약정": "110",
-			},
-			Sale: map[string]string{
-				"": "",
-			},
-			Service: map[string]string{
-				"": "",
-			},
-		},
-		"현대렌탈케어": &Article{
-			Article: "754",
-			Options: map[string]string{
-				"얼음정수기": "1778",
-				"냉온정수기": "1779",
-				"공기청정기": "1780",
-				"비데":    "1781",
-			},
-			Promise: map[string]string{
-				"3년약정": "111",
-				"4년약정": "112",
-				"5년약정": "113",
-			},
-			Sale: map[string]string{
-				"": "",
-			},
-			Service: map[string]string{
-				"": "",
-			},
-		},
-		"바디프랜드": &Article{
-			Article: "755",
-			Options: map[string]string{
-				"냉온정수기":    "1782",
-				"매트리스&프레임": "1783",
-			},
-			Promise: map[string]string{
-				"3년약정": "114",
-				"4년약정": "115",
-				"5년약정": "116",
-			},
-			Sale: map[string]string{
-				"": "",
-			},
-			Service: map[string]string{
-				"": "",
-			},
-		},
-		"교원웰스": &Article{
-			Article: "756",
-			Options: map[string]string{
-				"냉온정수기":  "1784",
-				"공기청정기":  "1785",
-				"비데":     "1786",
-				"연수기":    "1787",
-				"주방가전용품": "1788",
-				"의류건조기":  "1789",
-				"안마의자":   "1790",
-				"전기레인지":  "1791",
-				"의류관리기":  "1792",
-			},
-			Promise: map[string]string{
-				"3년약정": "117",
-				"4년약정": "118",
-				"5년약정": "119",
-			},
-			Sale: map[string]string{
-				"": "",
-			},
-			Service: map[string]string{
-				"": "",
-			},
-		},
-		"코웨이": &Article{
-			Article: "757",
-			Options: map[string]string{
-				"얼음정수기":    "1793",
-				"냉온정수기":    "1794",
-				"공기청정기":    "1795",
-				"비데":       "1796",
-				"연수기":      "1797",
-				"전기레인지":    "1798",
-				"의류관리기":    "1799",
-				"매트리스&프레임": "1800",
-			},
-			Promise: map[string]string{
-				"3년약정": "120",
-				"4년약정": "121",
-				"5년약정": "122",
-			},
-			Sale: map[string]string{
-				"": "",
-			},
-			Service: map[string]string{
-				"": "",
-			},
-		},
-		"현대렌탈서비스": &Article{
-			Article: "758",
-			Options: map[string]string{
-				"펫용품":      "1801",
-				"냉온정수기":    "1806",
-				"공기청정기":    "1807",
-				"비데":       "1808",
-				"연수기":      "1809",
-				"주방가전용품":   "1810",
-				"의류건조기":    "1811",
-				"안마의자":     "1812",
-				"전기레인지":    "1813",
-				"생활가전용품":   "1814",
-				"의류관리기":    "1815",
-				"매트리스&프레임": "1816",
-				"가구":       "1817",
-			},
-			Promise: map[string]string{
-				"3년약정": "123",
-				"4년약정": "124",
-				"5년약정": "125",
-			},
-			Sale: map[string]string{
-				"": "",
-			},
-			Service: map[string]string{
-				"": "",
-			},
-		},
-		"루헨스": &Article{
-			Article: "759",
-			Options: map[string]string{
-				"냉온정수기": "1802",
-				"공기청정기": "1804",
-				"비데":    "1805",
-			},
-			Promise: map[string]string{
-				"3년약정": "126",
-				"4년약정": "127",
-				"5년약정": "128",
-			},
-			Sale: map[string]string{
-				"": "",
-			},
-			Service: map[string]string{
-				"": "",
-			},
-		},
-		"기타(렌탈)": &Article{
-			Article: "760",
-			Options: map[string]string{
-				"커피머신":   "1818",
-				"웰스팜":    "1819",
-				"건조기":    "1820",
-				"세탁기":    "1821",
-				"에어드레서":  "1822",
-				"탑퍼(토퍼)": "1823",
-				"LED마스크": "1824",
-				"에어컨":    "1828",
-				"청소기":    "1830",
-				"전기자전거":  "1831",
-				"테블릿PC":  "1832",
-				"복합기":    "1833",
-				"전기장판":   "1834",
-				"프로젝트빔":  "1835",
-				"제습기":    "1836",
-			},
-			Promise: map[string]string{
-				"3년약정": "129",
-				"4년약정": "130",
-				"5년약정": "131",
-			},
-			Sale: map[string]string{
-				"": "",
-			},
-			Service: map[string]string{
-				"": "",
-			},
-		},
 		"미기입": &Article{
 			Article: "761",
 			Options: map[string]string{

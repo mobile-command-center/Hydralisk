@@ -108,6 +108,9 @@ func convert(i *ItemInformation, pos int, d interface{}) {
 //EmptyMembership 함수는 빈 Membership 구조체를 리턴한다.
 func EmptyMembership() *Membership {
 	return &Membership{
+		CustomerInformation: CustomerInformation{
+			RegistrationCourse: "0",
+		},
 		PaymentInformation: PaymentInformation{
 			AccountTransfer: AccountTransfer{
 				Bank: "0",
@@ -116,33 +119,33 @@ func EmptyMembership() *Membership {
 				Company: "0",
 			},
 		},
+		GiftAccount: GiftAccount{
+			Bank: "0",
+		},
 		ItemInformation: ItemInformation{
 			FirstItem: &FirstItem{
-				Item:            "0",
-				Option:          "0",
-				Promise:         "0",
-				Sale:            "0",
-				Service:         "0",
-				LineCount:       "1",
-				GiftPaymentType: "E",
+				Item:      "0",
+				Option:    "0",
+				Promise:   "0",
+				Sale:      "0",
+				Service:   "0",
+				LineCount: "1",
 			},
 			SecondItem: &SecondItem{
-				Item:            "0",
-				Option:          "0",
-				Promise:         "0",
-				Sale:            "0",
-				Service:         "0",
-				LineCount:       "1",
-				GiftPaymentType: "E",
+				Item:      "0",
+				Option:    "0",
+				Promise:   "0",
+				Sale:      "0",
+				Service:   "0",
+				LineCount: "1",
 			},
 			ThirdItem: &ThirdItem{
-				Item:            "0",
-				Option:          "0",
-				Promise:         "0",
-				Sale:            "0",
-				Service:         "0",
-				LineCount:       "1",
-				GiftPaymentType: "E",
+				Item:      "0",
+				Option:    "0",
+				Promise:   "0",
+				Sale:      "0",
+				Service:   "0",
+				LineCount: "1",
 			},
 		},
 	}

@@ -2,15 +2,12 @@ package goods
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/mobile-command-center/Hydralisk/client"
 )
 
 func skbParser(i *ItemInformation, c client.Client, company *CommCompany) int {
 	fmt.Println("SKB PARSER")
-
-	log.Printf("%+v\n", c)
 	fieldPosition := 3
 
 	if skbInternet(c) != "" {
@@ -112,6 +109,13 @@ func skbGiftCardCode(c client.Client) string {
 	return item[c.SpGiftCardCode]
 }
 
+func skbGiftType(c client.Client) string {
+	if c.SpGiftCardCode == "0" {
+		return "E"
+	}
+	return "A"
+}
+
 func newSkbInternet(c client.Client, company *CommCompany) *DummyItem {
 	article := company.Article["인터넷"]
 
@@ -125,7 +129,7 @@ func newSkbInternet(c client.Client, company *CommCompany) *DummyItem {
 		GiftName:        skbGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: skbGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",
@@ -142,10 +146,10 @@ func newSkbTv(c client.Client, company *CommCompany) *DummyItem {
 		Sale:            article.Sale[skbSettop(c)],
 		Service:         article.Service[skbTvAdd(c)],
 		LineCount:       "1",
-		GiftName:        "",
+		GiftName:        skbGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: skbGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",
@@ -162,10 +166,10 @@ func newSkbPhone(c client.Client, company *CommCompany) *DummyItem {
 		Sale:            "0",
 		Service:         article.Service["없음"],
 		LineCount:       "1",
-		GiftName:        "",
+		GiftName:        skbGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: skbGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",

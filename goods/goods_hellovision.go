@@ -45,8 +45,8 @@ func cjWifi(c client.Client) string {
 
 func cjTv(c client.Client) string {
 	item := map[string]string{
-		"베이직 UHD SMT":  "베이직(185CH)",
-		"프리미엄 UHD SMT": "프리미엄(213CH)",
+		"베이직 UHD SMT":  "베이직 UHD",
+		"프리미엄 UHD SMT": "프리미엄 UHD",
 	}
 	return item[c.BoardTv]
 }
@@ -60,13 +60,6 @@ func cjTvAdd(c client.Client) string {
 	return item[c.BoardTvAdd]
 }
 
-func cjCombination(c client.Client) string {
-	item := map[string]string{
-		"": "없음",
-	}
-	return item[c.Combination]
-}
-
 func cjGiftCardCode(c client.Client) string {
 	item := map[string]string{
 		"0": "",
@@ -76,6 +69,13 @@ func cjGiftCardCode(c client.Client) string {
 	return item[c.SpGiftCardCode]
 }
 
+func cjGiftType(c client.Client) string {
+	if c.SpGiftCardCode == "0" {
+		return "E"
+	}
+	return "A"
+}
+
 func newCjInternet(c client.Client, company *CommCompany) *DummyItem {
 	article := company.Article["인터넷"]
 
@@ -83,13 +83,13 @@ func newCjInternet(c client.Client, company *CommCompany) *DummyItem {
 		Item:            article.Article,
 		Option:          article.Options[cjInternet(c)],
 		Promise:         article.Promise["3년약정"],
-		Sale:            article.Sale[cjCombination(c)],
+		Sale:            article.Sale["없음"],
 		Service:         article.Service[cjWifi(c)],
 		LineCount:       "1",
 		GiftName:        cjGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: cjGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",
@@ -103,13 +103,13 @@ func newCjTv(c client.Client, company *CommCompany) *DummyItem {
 		Item:            article.Article,
 		Option:          article.Options[cjTv(c)],
 		Promise:         article.Promise["3년약정"],
-		Sale:            article.Sale["UHD셋탑"],
+		Sale:            article.Sale["없음"],
 		Service:         article.Service[cjTvAdd(c)],
 		LineCount:       "1",
-		GiftName:        "",
+		GiftName:        cjGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: cjGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",

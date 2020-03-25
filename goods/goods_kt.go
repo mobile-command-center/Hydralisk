@@ -106,6 +106,13 @@ func ktGiftCardCode(c client.Client) string {
 	return item[c.SpGiftCardCode]
 }
 
+func ktGiftType(c client.Client) string {
+	if c.SpGiftCardCode == "0" {
+		return "E"
+	}
+	return "A"
+}
+
 func newKtInternet(c client.Client, company *CommCompany) *DummyItem {
 	article := company.Article["인터넷"]
 
@@ -119,7 +126,7 @@ func newKtInternet(c client.Client, company *CommCompany) *DummyItem {
 		GiftName:        ktGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: ktGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",
@@ -136,10 +143,10 @@ func newKtTv(c client.Client, company *CommCompany) *DummyItem {
 		Sale:            article.Sale[ktSettop(c)],
 		Service:         article.Service[ktTvAdd(c)],
 		LineCount:       "1",
-		GiftName:        "",
+		GiftName:        ktGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: ktGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",
@@ -153,13 +160,13 @@ func newKtPhone(c client.Client, company *CommCompany) *DummyItem {
 		Item:            article.Article,
 		Option:          article.Options[ktPhone(c)],
 		Promise:         article.Promise["3년약정"],
-		Sale:            "0",
+		Sale:            article.Sale["없음"],
 		Service:         article.Service["없음"],
 		LineCount:       "1",
-		GiftName:        "",
+		GiftName:        ktGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: ktGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",

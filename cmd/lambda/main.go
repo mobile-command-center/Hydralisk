@@ -173,7 +173,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	}
 
 	u := user.NewUser(conf.ID, conf.Password)
-	u.SetUrl(map[int]string{
+	u.SetURL(map[int]string{
 		user.LoginLevel:    conf.LoginURL,
 		user.LogoutLevel:   conf.LogoutURL,
 		user.RegisterLevel: conf.RegisterURL,

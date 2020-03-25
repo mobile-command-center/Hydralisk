@@ -109,6 +109,13 @@ func skGiftCardCode(c client.Client) string {
 	return item[c.SpGiftCardCode]
 }
 
+func skGiftType(c client.Client) string {
+	if c.SpGiftCardCode == "0" {
+		return "E"
+	}
+	return "A"
+}
+
 func newSkInternet(c client.Client, company *CommCompany) *DummyItem {
 	article := company.Article["인터넷"]
 
@@ -122,7 +129,7 @@ func newSkInternet(c client.Client, company *CommCompany) *DummyItem {
 		GiftName:        skGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: skGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",
@@ -139,10 +146,10 @@ func newSkTv(c client.Client, company *CommCompany) *DummyItem {
 		Sale:            article.Sale[skSettop(c)],
 		Service:         article.Service[skTvAdd(c)],
 		LineCount:       "1",
-		GiftName:        "",
+		GiftName:        skGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: skGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",
@@ -156,13 +163,13 @@ func newSkPhone(c client.Client, company *CommCompany) *DummyItem {
 		Item:            article.Article,
 		Option:          article.Options[skPhone(c)],
 		Promise:         article.Promise["3년약정"],
-		Sale:            "0",
+		Sale:            article.Sale["없음"],
 		Service:         article.Service["없음"],
 		LineCount:       "1",
-		GiftName:        "",
+		GiftName:        skGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: skGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",

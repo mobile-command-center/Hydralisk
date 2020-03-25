@@ -85,6 +85,13 @@ func skylifeGiftCardCode(c client.Client) string {
 	return item[c.SpGiftCardCode]
 }
 
+func skylifeGiftType(c client.Client) string {
+	if c.SpGiftCardCode == "0" {
+		return "E"
+	}
+	return "A"
+}
+
 func newSkylifeInternet(c client.Client, company *CommCompany) *DummyItem {
 	article := company.Article["인터넷"]
 
@@ -98,7 +105,7 @@ func newSkylifeInternet(c client.Client, company *CommCompany) *DummyItem {
 		GiftName:        skylifeGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: skylifeGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",
@@ -115,10 +122,10 @@ func newSkylifeTv(c client.Client, company *CommCompany) *DummyItem {
 		Sale:            article.Sale["없음"],
 		Service:         article.Service[skylifeTvAdd(c)],
 		LineCount:       "1",
-		GiftName:        "",
+		GiftName:        skylifeGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: skGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",

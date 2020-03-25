@@ -98,6 +98,13 @@ func lgGiftCardCode(c client.Client) string {
 	return item[c.SpGiftCardCode]
 }
 
+func lgGiftType(c client.Client) string {
+	if c.SpGiftCardCode == "0" {
+		return "E"
+	}
+	return "A"
+}
+
 func newLgInternet(c client.Client, company *CommCompany) *DummyItem {
 	article := company.Article["인터넷"]
 
@@ -111,7 +118,7 @@ func newLgInternet(c client.Client, company *CommCompany) *DummyItem {
 		GiftName:        lgGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: lgGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",
@@ -119,7 +126,7 @@ func newLgInternet(c client.Client, company *CommCompany) *DummyItem {
 }
 
 func newLgTv(c client.Client, company *CommCompany) *DummyItem {
-	article := company.Article["TV"]
+	article := company.Article["IPTV"]
 
 	return &DummyItem{
 		Item:            article.Article,
@@ -128,10 +135,10 @@ func newLgTv(c client.Client, company *CommCompany) *DummyItem {
 		Sale:            article.Sale[lgSettop(c)],
 		Service:         article.Service[lgTvAdd(c)],
 		LineCount:       "1",
-		GiftName:        "",
+		GiftName:        lgGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: lgGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",
@@ -145,13 +152,13 @@ func newLgPhone(c client.Client, company *CommCompany) *DummyItem {
 		Item:            article.Article,
 		Option:          article.Options[lgPhone(c)],
 		Promise:         article.Promise["3년약정"],
-		Sale:            "0",
+		Sale:            article.Sale["없음"],
 		Service:         article.Service["없음"],
 		LineCount:       "1",
-		GiftName:        "",
+		GiftName:        lgGiftCardCode(c),
 		GiftPrice:       "",
 		GiftPaymentDay:  "",
-		GiftPaymentType: "E",
+		GiftPaymentType: lgGiftType(c),
 		ReviewPrice:     "",
 		TopGiftName:     "",
 		TopGiftPrice:    "",
