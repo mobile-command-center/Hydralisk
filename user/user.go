@@ -56,11 +56,6 @@ func (u *User) Do(v url.Values, data UserData) (status int, err error) {
 	if err != nil {
 		return
 	}
-
-	status, err = u.logout(u.url[LogoutLevel])
-	if err != nil {
-		return
-	}
 	return
 }
 
@@ -105,7 +100,9 @@ func (u *User) login(loginURL string) (int, error) {
 	req.Header.Add("Accept-Encoding", "gzip, deflate")
 	req.Header.Add("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6")
 	req.Header.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
-	u.setCookie(loginURL, req)
+
+	parsedURL, _ := url.Parse(loginURL)
+	log.Printf("%v\n", u.client.Jar.Cookies(parsedURL))
 
 	resp, err := u.client.Do(req)
 	if err != nil {
@@ -129,7 +126,8 @@ func (u *User) logout(logoutURL string) (int, error) {
 	req.Header.Add("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6")
 	req.Header.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 
-	u.setCookie(logoutURL, req)
+	parsedURL, _ := url.Parse(logoutURL)
+	log.Printf("%v\n", u.client.Jar.Cookies(parsedURL))
 
 	resp, err := u.client.Do(req)
 	if err != nil {
@@ -158,7 +156,9 @@ func (u *User) register(registerURL string, v url.Values, user UserData) (int, e
 	req.Header.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
 	req.Header.Add("Accept-Encoding", "gzip, deflate")
 	req.Header.Add("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6")
-	u.setCookie(registerURL, req)
+
+	parsedURL, _ := url.Parse(registerURL)
+	log.Printf("%v\n", u.client.Jar.Cookies(parsedURL))
 
 	resp, err := u.client.Do(req)
 	if err != nil {

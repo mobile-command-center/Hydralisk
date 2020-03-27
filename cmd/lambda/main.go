@@ -40,6 +40,7 @@ var (
 		Recipient:   os.Getenv("RECIPIENT"),
 	}
 	membership = goods.EmptyMembership()
+	userClient = user.NewUser(conf.ID, conf.Password)
 )
 
 const (
@@ -172,8 +173,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return resp, err
 	}
 
-	u := user.NewUser(conf.ID, conf.Password)
-	u.SetURL(map[int]string{
+	userClient.SetURL(map[int]string{
 		user.LoginLevel:    conf.LoginURL,
 		user.LogoutLevel:   conf.LogoutURL,
 		user.RegisterLevel: conf.RegisterURL,
@@ -181,7 +181,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 
 	var status int
 	userData := user.NewUserData(data, membership.CustomerInformation.Name)
-	status, err = u.Do(v, *userData)
+	status, err = userClient.Do(v, *userData)
 	if err != nil {
 		resp.StatusCode = status
 		resp.Body = mail.ErpSystemError + Contect
