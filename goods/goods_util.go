@@ -106,8 +106,12 @@ func convert(i *ItemInformation, pos int, d interface{}) {
 }
 
 //EmptyMembership 함수는 빈 Membership 구조체를 리턴한다.
-func EmptyMembership() *Membership {
+func EmptyMembership(id string) *Membership {
 	return &Membership{
+		AdminInformation: AdminInformation{
+			Jupsu: id,
+			Yuchi: id,
+		},
 		CustomerInformation: CustomerInformation{
 			RegistrationCourse: "0",
 		},
