@@ -56,6 +56,11 @@ func (u *User) Do(v url.Values, data UserData) (status int, err error) {
 	if err != nil {
 		return
 	}
+
+	status, err = u.logout(u.url[LogoutLevel])
+	if err != nil {
+		return
+	}
 	return
 }
 
@@ -70,18 +75,6 @@ type User struct {
 //SetURL 함수는 아정통신 CMS URL을 설정하는 함수이다
 func (u *User) SetURL(url map[int]string) {
 	u.url = url
-}
-
-func (u *User) setCookie(rawURL string, req *http.Request) {
-	parsedURL, _ := url.Parse(rawURL)
-	for _, cookie := range u.client.Jar.Cookies(parsedURL) {
-		req.AddCookie(&http.Cookie{
-			Name:  cookie.Name,
-			Value: cookie.Value,
-		})
-	}
-
-	log.Printf("%v\n", u.client.Jar.Cookies(parsedURL))
 }
 
 //Login 함수는 관리자 로그인 함수이다.
@@ -111,7 +104,7 @@ func (u *User) login(loginURL string) (int, error) {
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
-	log.Printf("status code %d\nresponse body\n%+v\n", resp.StatusCode, string(body))
+	debugResponseBody(resp.StatusCode, body)
 
 	return http.StatusOK, nil
 }
@@ -136,7 +129,7 @@ func (u *User) logout(logoutURL string) (int, error) {
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
-	log.Printf("status code %d\nresponse body\n%+v\n", resp.StatusCode, string(body))
+	debugResponseBody(resp.StatusCode, body)
 
 	return http.StatusOK, nil
 }
@@ -167,7 +160,7 @@ func (u *User) register(registerURL string, v url.Values, user UserData) (int, e
 	defer resp.Body.Close()
 
 	body, err := ioutil.ReadAll(resp.Body)
-	log.Printf("status code %d\nresponse body\n%+v\n", resp.StatusCode, string(body))
+	debugResponseBody(resp.StatusCode, body)
 
 	return http.StatusOK, nil
 }

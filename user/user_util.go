@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"log"
 	"mime/multipart"
 	"net/textproto"
 	"net/url"
@@ -45,4 +46,10 @@ func makeMultiPart(v url.Values, user UserData) (string, string) {
 	}
 	w.Close()
 	return b.String(), w.FormDataContentType()
+}
+
+func debugResponseBody(status int, b []byte) {
+	euckr := korean.EUCKR.NewDecoder()
+	utf8, _ := euckr.Bytes(b)
+	log.Printf("status code %d\nresponse body\n%+v\n", status, string(utf8))
 }

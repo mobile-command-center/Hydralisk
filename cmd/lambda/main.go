@@ -173,12 +173,6 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return resp, err
 	}
 
-	userClient.SetURL(map[int]string{
-		user.LoginLevel:    conf.LoginURL,
-		user.LogoutLevel:   conf.LogoutURL,
-		user.RegisterLevel: conf.RegisterURL,
-	})
-
 	var status int
 	userData := user.NewUserData(data, membership.CustomerInformation.Name)
 	status, err = userClient.Do(v, *userData)
@@ -199,6 +193,14 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	m.SetBody(data.String())
 	mail.Send(m)
 	return resp, nil
+}
+
+func init() {
+	userClient.SetURL(map[int]string{
+		user.LoginLevel:    conf.LoginURL,
+		user.LogoutLevel:   conf.LogoutURL,
+		user.RegisterLevel: conf.RegisterURL,
+	})
 }
 
 func main() {
