@@ -174,7 +174,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	}
 
 	var status int
-	userData := user.NewUserData(data, membership.CustomerInformation.Name)
+	userData := user.NewData(data, membership.CustomerInformation.Name)
 	status, err = userClient.Do(v, *userData)
 	if err != nil {
 		resp.StatusCode = status

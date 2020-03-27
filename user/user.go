@@ -11,18 +11,23 @@ import (
 )
 
 const (
-	LoginLevel int = 1 + iota
-	LogoutLevel
-	RegisterLevel
+	//LoginLevel 은 Login URL을 지정한다.
+	LoginLevel = 1 + iota
+	//LogoutLevel 은 Logout URL을 지정한다.
+	LogoutLevel = 2
+	//RegisterLevel 은 Register URL을 지정한다.
+	RegisterLevel = 3
 )
 
-type UserData struct {
+//Data 구조체는 RawData 정보를 갖는 구조체이다.
+type Data struct {
 	Data     bytes.Buffer
 	Filename string
 }
 
-func NewUserData(data bytes.Buffer, filename string) *UserData {
-	return &UserData{
+//NewData 함수는 UserData 객체를 생성하여 리턴한다.
+func NewData(data bytes.Buffer, filename string) *Data {
+	return &Data{
 		Data:     data,
 		Filename: filename,
 	}
@@ -43,7 +48,7 @@ func NewUser(id string, password string) *User {
 }
 
 //Do 함수는 아정통신 CMS 시스템에 데이터를 등록하는 로직을 수행한다.
-func (u *User) Do(v url.Values, data UserData) (status int, err error) {
+func (u *User) Do(v url.Values, data Data) (status int, err error) {
 	status = http.StatusOK
 	err = nil
 
@@ -136,8 +141,8 @@ func (u *User) logout(logoutURL string) (int, error) {
 
 //Register 함수는 고객정보를 등록하는 함수이다.
 //ERP시스템에서는 multipart 타입으로 POST 요청해야 한다.
-func (u *User) register(registerURL string, v url.Values, user UserData) (int, error) {
-	b, c := makeMultiPart(v, user)
+func (u *User) register(registerURL string, v url.Values, d Data) (int, error) {
+	b, c := makeMultiPart(v, d)
 	req, err := http.NewRequest(http.MethodPost, registerURL, strings.NewReader(b))
 	if err != nil {
 		return http.StatusInternalServerError, err

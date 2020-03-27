@@ -58,6 +58,7 @@ type Client struct {
 	KtUser                  string   `json:"p_kt_user" form:"p_kt_user"`                                   //Skylife 옵션 (기존KT사용)
 }
 
+//RequestTmpl 는 CMS 시스템이나 EMAIL에 전송할 템플릿이다.
 const RequestTmpl = `
 아정통신 관리 시스템 요청 데이타 원본
 통신사 : {{if .Vendor}} {{.Vendor}} {{else}} {{end}}
