@@ -39,7 +39,7 @@ var (
 		Password:    os.Getenv("PASSWORD"),
 		Recipient:   os.Getenv("RECIPIENT"),
 	}
-	membership = goods.EmptyMembership()
+	membership = goods.EmptyMembership(conf.ID)
 	userClient = user.NewUser(conf.ID, conf.Password)
 )
 
@@ -192,18 +192,13 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	}
 
 	defer func() {
-		membership = goods.EmptyMembership()
+		membership = goods.EmptyMembership(conf.ID)
 	}()
 
 	m := mail.NewMail(RegistrationReport+" "+c.Name+" 고객님", conf.Recipient)
 	m.SetBody(data.String())
 	mail.Send(m)
 	return resp, nil
-}
-
-func init() {
-	membership.AdminInformation.Yuchi = conf.ID
-	membership.AdminInformation.Jupsu = conf.ID
 }
 
 func main() {
