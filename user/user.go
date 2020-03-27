@@ -155,6 +155,8 @@ func (u *User) register(registerURL string, v url.Values, d Data) (int, error) {
 	req.Header.Add("Accept-Encoding", "gzip, deflate")
 	req.Header.Add("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6")
 
+	log.Printf("data to cms\n%+v\n", v)
+
 	parsedURL, _ := url.Parse(registerURL)
 	log.Printf("%v\n", u.client.Jar.Cookies(parsedURL))
 

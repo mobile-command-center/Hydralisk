@@ -9,7 +9,7 @@ build: lambda compression
 deploy:
 	@aws lambda update-function-code --function-name hydralisk-dev-registration --zip-file fileb://cmd/lambda/main.zip
 
-all: build
+all: build deploy
 
 clean:
 	@rm cmd/lambda/main
