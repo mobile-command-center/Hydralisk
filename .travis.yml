@@ -1,7 +1,15 @@
 language: go
-
 go:
 - 1.14.x
-
+- tip
 script:
-- make lambda
+- make build
+- go test -race -coverprofile=coverage.txt -covermode=atomic
+after_success:
+- bash <(curl -s https://codecov.io/bash)
+deploy:
+  provider: lambda
+  region: us-west-2
+  function_name: hydralisk-dev-registration
+  edge: true
+  zip: ./cmd/lambda/main.zip

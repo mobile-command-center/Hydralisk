@@ -1,6 +1,9 @@
 # 아정통신 CMS 시스템
+
+[![Build Status](https://travis-ci.org/mobile-command-center/Hydralisk.svg?branch=master)](https://travis-ci.org/github/mobile-command-center/Hydralisk)
+[![codecov](https://codecov.io/gh/mobile-command-center/Hydralisk/branch/master/graph/badge.svg)](https://codecov.io/gh/mobile-command-center/Hydralisk)
 [![Go Report Card](https://goreportcard.com/badge/github.com/mobile-command-center/Hydralisk)](https://goreportcard.com/report/github.com/mobile-command-center/Hydralisk)
-[![Documentation](https://godoc.org/github.com/mobile-command-center/Hydralisk?status.svg)](https://godoc.org/github.com/mobile-command-center/Hydralisk)
+[![Documentation](https://godoc.org/github.com/mobile-command-center/Hydralisk?status.svg)](https://godoc.org/github.com/mobile-command-center/Hydralisk)  
 ## 공통데이터  
 ### 공통사항  
 | 가입신청서     | CMS    | 비고         |

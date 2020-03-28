@@ -1,3 +1,4 @@
+.PHONY: build clean deploy all
 lambda:
 	@GOOS=linux go build -o cmd/lambda/main cmd/lambda/main.go
 
