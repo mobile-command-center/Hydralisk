@@ -1,10 +1,5 @@
 .git
 .idea
-standalone
-info.json
-sample.txt
-lambda
-cmd/client
-data.json
-aws.json
-json_generator
+main
+main.zip
+coverage.txt

@@ -1,9 +1,9 @@
 .PHONY: build clean deploy all
 lambda:
-	@GOOS=linux go build -o cmd/lambda/main cmd/lambda/main.go
+	@GOOS=linux go build -o main main.go
 
 compression:
-	@zip cmd/lambda/main.zip cmd/lambda/main
+	@zip main.zip main
 
 build: lambda compression
 
@@ -13,5 +13,5 @@ deploy:
 all: build deploy
 
 clean:
-	@rm cmd/lambda/main
-	@rm cmd/lambda/main.zip
+	@rm main
+	@rm main.zip
