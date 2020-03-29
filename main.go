@@ -101,6 +101,11 @@ func MakeRequest(req events.APIGatewayProxyRequest) (r http.Request, err error) 
 
 //Handler 는 Aws lambda 핸들러이다.
 func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	conf.ID = os.Getenv("ID")
+	conf.Password = os.Getenv("PASSWORD")
+
+	log.Printf("admin id : %s password : %s\n", conf.ID, conf.Password)
+
 	resp := MakeResponse()
 	req, err := MakeRequest(request)
 	if err != nil {

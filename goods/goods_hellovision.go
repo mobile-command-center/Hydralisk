@@ -48,6 +48,9 @@ func cjTv(c client.Client) string {
 		"베이직 UHD SMT":  "베이직 UHD",
 		"프리미엄 UHD SMT": "프리미엄 UHD",
 	}
+	if c.BoardTv == "" {
+		return ""
+	}
 	return item[c.BoardTv]
 }
 
