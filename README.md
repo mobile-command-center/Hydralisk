@@ -66,10 +66,15 @@ $ make build
 ### DB에러  
 접수ID, 유치ID 누락하게되면 다음과 같이 response body를 CMS 서버단에서 받게 됨. 상품 등록이 거부됨. 
 ```html
- <font face="Arial" size=2>
+<font face="Arial" size=2>
 <p>ADODB.Field</font> <font face="Arial" size=2>error '800a0bcd'</font>
 <p>
 <font face="Arial" size=2>Either BOF or EOF is True, or the current record has been deleted. Requested operation requires a current record.</font>
 <p>
 <font face="Arial" size=2>/customer/p_custom_regist_top_ok.asp</font><font face="Arial" size=2>, line 191</font> 
 ```
+## TODO
+### 브랜치 전략
++ master : release 브랜치로 안정화 코드만 관리되도록 한다.
++ dev : 개발 브랜치로 관리. 유지보수시 dev 브랜치에서 개발 후 master로 PR 한다.
++ feature : 신규 기능 구현시 dev 브랜치에서 feature 브랜치 생성하 후 dev 브랜치로 PR 한다.
