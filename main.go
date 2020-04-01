@@ -101,6 +101,11 @@ func MakeRequest(req events.APIGatewayProxyRequest) (r http.Request, err error) 
 
 //Handler 는 Aws lambda 핸들러이다.
 func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	conf.ID = os.Getenv("ID")
+	conf.Password = os.Getenv("PASSWORD")
+
+	log.Printf("admin id : %s password : %s\n", conf.ID, conf.Password)
+
 	resp := MakeResponse()
 	req, err := MakeRequest(request)
 	if err != nil {
@@ -123,8 +128,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 		return resp, err
 	}
 
-	log.Printf("Data from web\n%+v\n", req.Body)
-
+	log.Printf("data from web\n%+v\n", req.PostForm)
 	c := &client.Client{}
 	decoder := NewDecoder()
 	err = decoder.Decode(c, req.PostForm)
@@ -174,7 +178,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	}
 
 	var status int
-	userData := user.NewUserData(data, membership.CustomerInformation.Name)
+	userData := user.NewData(data, membership.CustomerInformation.Name)
 	status, err = userClient.Do(v, *userData)
 	if err != nil {
 		resp.StatusCode = status

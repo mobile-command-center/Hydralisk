@@ -314,6 +314,7 @@ func getLguArticle() map[string]*Article {
 			Options: map[string]string{
 				"베이직(185CH)":           "141",
 				"프리미엄(224CH)":          "142",
+				"VOD고급(210CH)":         "1856",
 				"프리미엄 넷플릭스 HD(224CH)":  "1728",
 				"프리미엄 넷플릭스 UHD(224CH)": "1854",
 			},
