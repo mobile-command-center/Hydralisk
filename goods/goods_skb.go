@@ -89,13 +89,14 @@ func skbPhone(c client.Client) string {
 
 func skbCombination(c client.Client) string {
 	item := map[string]string{
-		"결합없음":          "없음",
-		"휴대폰 2대이상(온플랜)": "온프리(1회선)", //deprecated
-		"2,30년 이상(온할인)": "온가족할인(년수)",
-		"SKT인터넷-인터넷 결합": "★패밀리★", //deprecated
-		"기타(요청란에 기입)":   "기타특이사항확인",
-		"휴대폰 1대(온프리)":   "온프리(1회선)",
-		"SKB인터넷-인터넷 결합": "★패밀리★",
+		"결합없음":                  "없음",
+		"휴대폰 2대이상(온플랜)":         "온프리(1회선)",  //deprecated
+		"2,30년 이상(온할인)":         "온가족할인(년수)", //deprecated
+		"SKT인터넷-인터넷 결합":         "★패밀리★",     //deprecated
+		"기타(요청란에 기입)":           "기타특이사항확인",  //deprrecated
+		"1대결합(온프리)":             "온프리(1회선)",
+		"2,30년↑(온할인)":           "온가족할인(년수)",
+		"SKB인터넷-인터넷 기타(요청란에기입)": "기타특이사항확인",
 	}
 	return item[c.Combination]
 }
