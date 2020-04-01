@@ -29,9 +29,12 @@ func lgParser(i *ItemInformation, c client.Client, company *CommCompany) int {
 
 func lgInternet(c client.Client) string {
 	item := map[string]string{
-		"와이파이기본_광랜안심(100M)":   "100M+WIFI",
-		"와이파이기본_기가슬림안심(500M)": "500M+WIFI",
-		"와이파이기본_기가안심(1G)":     "1G+WIFI",
+		"와이파이기본_광랜안심(100M)":   "100M+WIFI", //deprecated
+		"와이파이기본_기가슬림안심(500M)": "500M+WIFI", //deprecated
+		"와이파이기본_기가안심(1G)":     "1G+WIFI",   //deprecated
+		"스마트 광랜안심(100M)":      "100M+WIFI",
+		"스마트 기가슬림안심(500M)":    "500M+WIFI",
+		"스마트 기가안심(1G)":        "1G+WIFI",
 	}
 	if c.BoardInternet == "" {
 		return ""

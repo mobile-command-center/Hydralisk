@@ -70,7 +70,7 @@ const RequestTmpl = `
 이메일 :  {{if and .Email1 .Email2}} {{.Email1}}@{{.Email2}} {{else}} {{end}}
 우편번호 : {{if and .ZipCode1 .ZipCode2}} {{.ZipCode1}}-{{.ZipCode2}} {{else}} {{end}}
 주소 : {{if and .Address1 .Address2}} {{.Address1}} {{.Address2}} {{else}} {{end}}
-주민번호 : {{if and .Jumin1 .Jumin2}} {{.Jumin1}}-{{.Jumin2}} {{else}} {{end}}
+주민번호 : {{if .Jumin1}} {{if .Jumin2}} {{.Jumin1}}-{{.Jumin2}} {{else}} {{.Jumin1}} {{end}} {{end}}
 납부 정보 : {{if .PaymentMethod}} {{.PaymentMethod}} {{else}} {{end}}
 은행번호 : {{if .BankCd}} {{.BankCd}} {{else}} {{end}}
 계좌번호 : {{if .BankNo}} {{.BankNo}} {{else}} {{end}}

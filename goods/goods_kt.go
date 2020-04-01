@@ -50,9 +50,12 @@ func ktWifi(c client.Client) string {
 func ktTv(c client.Client) string {
 	item := map[string]string{
 		"신청안함(인터넷 단독시)":           "",
-		"OTV슬림(구 OTV10) - 228채널":  "슬림(230CH)",
+		"OTV슬림(구 OTV10) - 228채널":  "슬림(230CH)", //deprecateed
 		"OTV라이트(구 OTV12) - 238채널": "라이트(240CH)",
 		"OTV에센스(구 OTV15) - 261채널": "에센스(270CH)",
+		"OTV베이직(신규) - 223 채널":     "베이직(223CH)",
+		"OTV라이트(구 OTV12) - 228채널": "라이트(240CH)",
+		"OTV에센스(구 OTV15) - 248채널": "에센스(270CH)",
 	}
 	return item[c.BoardTv]
 }

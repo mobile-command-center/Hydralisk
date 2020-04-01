@@ -65,6 +65,7 @@ func getKtArticle() map[string]*Article {
 				"라이트(240CH)": "1678",
 				"에센스(270CH)": "1679",
 				"엔터(270CH)":  "1680",
+				"베이직(223CH)": "1857",
 			},
 			Promise: map[string]string{
 				"3년약정": "70",
