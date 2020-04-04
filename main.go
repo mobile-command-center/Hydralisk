@@ -109,6 +109,8 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	resp := MakeResponse()
 	req, err := MakeRequest(request)
 	if err != nil {
+		log.Printf("[error] proxy request header\n%s\n", request.Headers)
+		log.Printf("[error] proxy request body\n%s\n", request.Body)
 		resp.StatusCode = http.StatusForbidden
 		resp.Body = mail.RequestBodyError + Contect
 		m := mail.NewMail(BugReport, conf.Recipient)
@@ -120,6 +122,8 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	maxMemory := int64(len(request.Body))
 	err = req.ParseMultipartForm(maxMemory)
 	if err != nil {
+		log.Printf("[error] proxy request header\n%s\n", request.Headers)
+		log.Printf("[error] proxy request body\n%s\n", request.Body)
 		resp.StatusCode = http.StatusInternalServerError
 		resp.Body = mail.MultiPartParsingError + Contect
 		m := mail.NewMail(BugReport, conf.Recipient)
