@@ -39,7 +39,7 @@ func newKt() *CommCompany {
 
 func getKtArticle() map[string]*Article {
 	return map[string]*Article{
-		"인터넷": &Article{
+		"인터넷": {
 			Article: "730",
 			Options: map[string]string{
 				"100M": "1668",
@@ -58,7 +58,7 @@ func getKtArticle() map[string]*Article {
 				"와이파이신청함":  "93",
 			},
 		},
-		"IPTV": &Article{
+		"IPTV": {
 			Article: "732",
 			Options: map[string]string{
 				"슬림(230CH)":  "1677",
@@ -84,7 +84,7 @@ func getKtArticle() map[string]*Article {
 				"총4대설치": "105",
 			},
 		},
-		"전화": &Article{
+		"전화": {
 			Article: "733",
 			Options: map[string]string{
 				"번호이동":    "1694",
@@ -116,7 +116,7 @@ func newSkb() *CommCompany {
 
 func getSkbArticle() map[string]*Article {
 	return map[string]*Article{
-		"인터넷": &Article{
+		"인터넷": {
 			Article: "79",
 			Options: map[string]string{
 				"100M": "114",
@@ -138,7 +138,7 @@ func getSkbArticle() map[string]*Article {
 				"와이파이신청함":  "118",
 			},
 		},
-		"전화": &Article{
+		"전화": {
 			Article: "81",
 			Options: map[string]string{
 				"번호이동":    "117",
@@ -156,7 +156,7 @@ func getSkbArticle() map[string]*Article {
 				"없음": "15",
 			},
 		},
-		"BTV": &Article{
+		"BTV": {
 			Article: "83",
 			Options: map[string]string{
 				"라이트(212CH)": "127",
@@ -194,7 +194,7 @@ func newSkt() *CommCompany {
 
 func getSktArticle() map[string]*Article {
 	return map[string]*Article{
-		"인터넷": &Article{
+		"인터넷": {
 			Article: "736",
 			Options: map[string]string{
 				"100M": "1700",
@@ -216,7 +216,7 @@ func getSktArticle() map[string]*Article {
 				"와이파이신청함":  "119",
 			},
 		},
-		"전화": &Article{
+		"전화": {
 			Article: "737",
 			Options: map[string]string{
 				"신규가입":    "1702",
@@ -234,7 +234,7 @@ func getSktArticle() map[string]*Article {
 				"없음": "79",
 			},
 		},
-		"BTV": &Article{
+		"BTV": {
 			Article: "738",
 			Options: map[string]string{
 				"라이트(212CH)": "1704",
@@ -272,7 +272,7 @@ func newLgu() *CommCompany {
 
 func getLguArticle() map[string]*Article {
 	return map[string]*Article{
-		"인터넷": &Article{
+		"인터넷": {
 			Article: "84",
 			Options: map[string]string{
 				"100M+WIFI": "1725",
@@ -291,7 +291,7 @@ func getLguArticle() map[string]*Article {
 				"휴대폰직접결합": "92",
 			},
 		},
-		"전화": &Article{
+		"전화": {
 			Article: "85",
 			Options: map[string]string{
 				"[WIFI]번호이동": "133",
@@ -309,7 +309,7 @@ func getLguArticle() map[string]*Article {
 				"없음": "76",
 			},
 		},
-		"IPTV": &Article{
+		"IPTV": {
 			Article: "86",
 			Options: map[string]string{
 				"베이직(185CH)":           "141",
@@ -348,7 +348,7 @@ func newLgHelloVision() *CommCompany {
 
 func getLgHelloVisionArticle() map[string]*Article {
 	return map[string]*Article{
-		"인터넷": &Article{
+		"인터넷": {
 			Article: "744",
 			Options: map[string]string{
 				"광랜라이트(100M)": "1848",
@@ -367,7 +367,7 @@ func getLgHelloVisionArticle() map[string]*Article {
 				"와이파이신청안함": "96",
 			},
 		},
-		"TV": &Article{
+		"TV": {
 			Article: "745",
 			Options: map[string]string{
 				"베이직 UHD":  "1852",
@@ -385,7 +385,7 @@ func getLgHelloVisionArticle() map[string]*Article {
 				"추가설치없음":        "131",
 			},
 		},
-		"전화": &Article{
+		"전화": {
 			Article: "746",
 			Options: map[string]string{
 				"표준+(1,100원)": "1735",
@@ -414,7 +414,7 @@ func newSkylife() *CommCompany {
 
 func getSkylifeArticle() map[string]*Article {
 	return map[string]*Article{
-		"인터넷": &Article{
+		"인터넷": {
 			Article: "747",
 			Options: map[string]string{
 				"100M": "1739",
@@ -435,7 +435,7 @@ func getSkylifeArticle() map[string]*Article {
 				"신청안함":     "128",
 			},
 		},
-		"TV": &Article{
+		"TV": {
 			Article: "748",
 			Options: map[string]string{
 				"Blue A+(218CH)":       "1744",
@@ -471,7 +471,7 @@ func newRental() *CommCompany {
 
 func getRentalArticle() map[string]*Article {
 	return map[string]*Article{
-		"미기입": &Article{
+		"미기입": {
 			Article: "761",
 			Options: map[string]string{
 				"미기입": "1855",
