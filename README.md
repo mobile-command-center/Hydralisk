@@ -38,6 +38,7 @@ $ make build
   + [aws](https://aws.amazon.com/ko/) 이동 후 로그인
   + Service > CloudWatch > 로그 > 로그 그룹 > /aws/lambda/hydralisk-dev-registration 이동
   + 시간대별 Log Stream 확인하여 CMS response body 확인
+  + APIGatewayProxyRequest 관련 에러 발생시 API-Gateway-Execution-Logs_6t6wi4j00j/dev 그룹에서 로그 확인
 ### 에러코드  
 
 | 에러 | 설명 |
