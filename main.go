@@ -44,9 +44,12 @@ var (
 )
 
 const (
-	BugReport          = "아정통신 버그리포트"
+	//BugReport 는 아정통신 버그발생시 사용하는 이메일 제목이다.
+	BugReport = "아정통신 버그리포트"
+	//RegistrationReport 는 아정통신 가입신청시 사용하는 이메일 제목이다.
 	RegistrationReport = "아정통신 가입신청서"
-	Contect            = "관리자에게 연락바랍니다.\n"
+	//Contect 는 관리자 연락관련 안내를 위해 사용하는 상수이다.
+	Contect = "관리자에게 연락바랍니다.\n"
 )
 
 //NewEncoder 함수는 웹페이지에서 전송되는 데이터를 구조체로
@@ -109,7 +112,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	resp := MakeResponse()
 	req, err := MakeRequest(request)
 	if err != nil {
-		log.Printf("[error] proxy request header\n%s\n", request.Headers)
+		log.Printf("[error] proxy request header\n%+v\n", request.Headers)
 		log.Printf("[error] proxy request body\n%s\n", request.Body)
 		resp.StatusCode = http.StatusForbidden
 		resp.Body = mail.RequestBodyError + Contect
@@ -122,7 +125,7 @@ func Handler(ctx context.Context, request events.APIGatewayProxyRequest) (events
 	maxMemory := int64(len(request.Body))
 	err = req.ParseMultipartForm(maxMemory)
 	if err != nil {
-		log.Printf("[error] proxy request header\n%s\n", request.Headers)
+		log.Printf("[error] proxy request header\n%+v\n", request.Headers)
 		log.Printf("[error] proxy request body\n%s\n", request.Body)
 		resp.StatusCode = http.StatusInternalServerError
 		resp.Body = mail.MultiPartParsingError + Contect
