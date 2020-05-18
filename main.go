@@ -72,11 +72,12 @@ func NewDecoder() *schema.Decoder {
 //MakeResponse 함수는 APIGatewayProxyResponse 구조체를 리턴한다.
 func MakeResponse() events.APIGatewayProxyResponse {
 	resp := events.APIGatewayProxyResponse{Headers: make(map[string]string)}
-	resp.Headers["Access-Control-Allow-Origin"] = "*"
-	resp.Headers["Content-Type"] = "text/plain; charset=utf-8"
-	resp.StatusCode = http.StatusOK
-	resp.IsBase64Encoded = false
-	resp.Body = "가입 신청서가 성공적으로 전송되었습니다."
+	//resp.Headers["Access-Control-Allow-Origin"] = "*"
+	//resp.Headers["Content-Type"] = "text/plain; charset=utf-8"
+	resp.Headers["Location"] = "https://ajungweb.co.kr/index.html"
+	resp.StatusCode = http.StatusFound
+	//resp.IsBase64Encoded = false
+	//resp.Body = "가입 신청서가 성공적으로 전송되었습니다."
 
 	return resp
 }
