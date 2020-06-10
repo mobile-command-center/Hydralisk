@@ -24,6 +24,7 @@ type Client struct {
 	Address2                string   `json:"c_address2" form:"c_address2"`                                 //상세주소
 	Jumin1                  string   `json:"c_jumin1" form:"c_jumin1"`                                     //주민번호 앞자리
 	Jumin2                  string   `json:"c_jumin2" form:"c_jumin2"`                                     //주민번호 뒷자리
+	Gender                  string   `json:"c_gender" form:"c_gender"`                                     //성별 (렌탈페이지)
 	PaymentMethod           string   `json:"g_payment_method" form:"g_payment_method"`                     //납부 정보
 	BankCd                  string   `json:"g_bank_cd" form:"g_bank_cd"`                                   //은행번호
 	BankNo                  string   `json:"g_bank_no" form:"g_bank_no"`                                   //계좌번호
@@ -72,6 +73,7 @@ const RequestTmpl = `
 우편번호 : {{if and .ZipCode1 .ZipCode2}} {{.ZipCode1}}-{{.ZipCode2}} {{else}} {{end}}
 주소 : {{if and .Address1 .Address2}} {{.Address1}} {{.Address2}} {{else}} {{end}}
 주민번호 : {{if .Jumin1}} {{if .Jumin2}} {{.Jumin1}}-{{.Jumin2}} {{else}} {{.Jumin1}} {{end}} {{else}} {{end}}
+성별 : {{if .Gender}} {{.Gender}} {{else}} {{end}}
 납부 정보 : {{if .PaymentMethod}} {{.PaymentMethod}} {{else}} {{end}}
 은행번호 : {{if .BankCd}} {{.BankCd}} {{else}} {{end}}
 계좌번호 : {{if .BankNo}} {{.BankNo}} {{else}} {{end}}

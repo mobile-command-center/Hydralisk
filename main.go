@@ -22,12 +22,13 @@ import (
 
 //Config 구조체는 Ajung 툴 접속 정보를 갖는 구조체
 type Config struct {
-	LoginURL    string `json:"login"`     //Login URL
-	LogoutURL   string `json:"logout"`    //Logout URL
-	RegisterURL string `json:"register"`  //Register URL
-	ID          string `json:"id"`        //Admin id
-	Password    string `json:"password"`  //Admin password
-	Recipient   string `json:"recipient"` //Email recipient
+	LoginURL    string `json:"login"`       //Login URL
+	LogoutURL   string `json:"logout"`      //Logout URL
+	RegisterURL string `json:"register"`    //Register URL
+	ID          string `json:"id"`          //Admin id
+	Password    string `json:"password"`    //Admin password
+	Recipient   string `json:"recipient"`   //Email recipient
+	Redirection string `json:"redirection"` //Redirection site
 }
 
 var (
@@ -38,6 +39,7 @@ var (
 		ID:          os.Getenv("ID"),
 		Password:    os.Getenv("PASSWORD"),
 		Recipient:   os.Getenv("RECIPIENT"),
+		Redirection: os.Getenv("REDIRECTION"),
 	}
 	membership = goods.EmptyMembership(conf.ID)
 	userClient = user.NewUser(conf.ID, conf.Password)
@@ -74,7 +76,7 @@ func MakeResponse() events.APIGatewayProxyResponse {
 	resp := events.APIGatewayProxyResponse{Headers: make(map[string]string)}
 	//resp.Headers["Access-Control-Allow-Origin"] = "*"
 	//resp.Headers["Content-Type"] = "text/plain; charset=utf-8"
-	resp.Headers["Location"] = "https://ajungweb.co.kr/index.html"
+	resp.Headers["Location"] = conf.Redirection
 	resp.StatusCode = http.StatusFound
 	//resp.IsBase64Encoded = false
 	//resp.Body = "가입 신청서가 성공적으로 전송되었습니다."
